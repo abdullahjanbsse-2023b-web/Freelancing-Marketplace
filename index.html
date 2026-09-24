@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SkillConnect - Freelancing Marketplace</title>
+    <title>FHub - Freelancing Marketplace</title>
     
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -12,209 +12,114 @@
 
     <header>
         <nav class="navbar">
-
             <a href="#" class="logo">
-                <img src="images/logo.png" alt="SkillConnect Logo">
+                <img src="images/logo.png" alt="FHub Logo">
             </a>
 
             <ul class="nav-links">
                 <li><a href="#">Home</a></li>
-                <li><a href="#freelancers">Find Freelancers</a></li>
-                <li><a href="#jobs">Find Jobs</a></li>
-                <li><a href="#about">About</a></li>
+                <li><a href="#marketplace">Find Services</a></li>
+                <li><a href="#freelancers">Top Freelancers</a></li>
+                <li><a href="#about">How It Works</a></li>
             </ul>
 
             <div class="auth-buttons">
                 <button class="login-btn">Login</button>
                 <button class="register-btn">Register</button>
             </div>
-
         </nav>
     </header>
 
-
     <!-- Hero Section -->
     <section class="hero">
-
         <div class="hero-content">
-
-            <h1>
-                Find the right talent for your next project
-            </h1>
-
-            <p>
-                Connect with skilled freelancers and get your work done professionally.
-            </p>
+            <h1>Find the right talent for your next project</h1>
+            <p>Connect with skilled freelancers and get your work done professionally.</p>
 
             <div class="search-box">
-
                 <input
                     type="text"
                     id="searchInput"
-                    placeholder="Search for services or freelancers..."
+                    placeholder="Search for services, skills, or freelancers..."
                 >
-
-                <button id="searchBtn">
-                    Search
-                </button>
-
+                <button id="searchBtn">Search</button>
             </div>
-
         </div>
-
     </section>
 
+    <!-- Marketplace & Services Section -->
+    <section class="marketplace" id="marketplace">
+        <h2>Explore Services & Freelancers</h2>
 
-    <!-- Popular Categories -->
-    <section class="categories">
-
-        <h2>Popular Categories</h2>
-
-        <div class="category-container">
-
-            <div class="category-card">
-                <h3>Web Development</h3>
-                <p>Websites & Applications</p>
+        <!-- Controls: Category Filter & Sorting -->
+        <div class="marketplace-controls">
+            <div class="category-filters" id="categoryFilters">
+                <button class="filter-btn active" data-category="All">All</button>
+                <button class="filter-btn" data-category="Web Development">Web Dev</button>
+                <button class="filter-btn" data-category="Graphic Design">Design</button>
+                <button class="filter-btn" data-category="Mobile Apps">Mobile Apps</button>
+                <button class="filter-btn" data-category="Data Analysis">Data</button>
+                <button class="filter-btn" data-category="Digital Marketing">Marketing</button>
             </div>
 
-            <div class="category-card">
-                <h3>Graphic Design</h3>
-                <p>Logos & Branding</p>
+            <div class="sort-container">
+                <label for="sortSelect">Sort By:</label>
+                <select id="sortSelect">
+                    <option value="default">Featured</option>
+                    <option value="rating">Highest Rated</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                </select>
             </div>
-
-            <div class="category-card">
-                <h3>Mobile App Development</h3>
-                <p>Android & iOS Apps</p>
-            </div>
-
-            <div class="category-card">
-                <h3>Data Analysis</h3>
-                <p>Data & Reports</p>
-            </div>
-
-            <div class="category-card">
-                <h3>Digital Marketing</h3>
-                <p>Marketing & Growth</p>
-            </div>
-
         </div>
 
+        <!-- Dynamic Card Grid -->
+        <div class="freelancer-container" id="freelancerGrid">
+            <!-- Cards rendered dynamically via JavaScript -->
+        </div>
     </section>
 
-
-    <!-- How It Works -->
+    <!-- How It Works Section -->
     <section class="how-it-works" id="about">
-
         <h2>How It Works</h2>
-
         <div class="steps">
-
             <div class="step">
                 <span>01</span>
                 <h3>Search</h3>
-                <p>Find the service or freelancer you need.</p>
+                <p>Find the exact service or skilled freelancer you need.</p>
             </div>
-
             <div class="step">
                 <span>02</span>
                 <h3>Choose</h3>
-                <p>Compare freelancers and select the right one.</p>
+                <p>Compare ratings, portfolios, and pricing transparently.</p>
             </div>
-
             <div class="step">
                 <span>03</span>
                 <h3>Hire</h3>
-                <p>Hire a freelancer and start your project.</p>
+                <p>Hire talent directly and collaborate on your timeline.</p>
             </div>
-
         </div>
-
     </section>
 
-
-    <!-- Freelancer Cards -->
-    <section class="freelancers" id="freelancers">
-
-        <h2>Featured Freelancers</h2>
-
-        <div class="freelancer-container">
-
-            <div class="freelancer-card">
-
-                <img src="https://i.pravatar.cc/150?img=11" alt="Ahmed Khan - Full Stack Web Developer">
-
-                <h3>Ahmed Khan</h3>
-
-                <p>Full Stack Web Developer</p>
-
-                <div class="rating">
-                    ★★★★★
-                </div>
-
-                <button>View Profile</button>
-
+    <!-- Modal for Profile / Service Details -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <div class="modal-body" id="modalBody">
+                <!-- Profile details injected via JS -->
             </div>
-
-
-            <div class="freelancer-card">
-
-                <img src="https://i.pravatar.cc/150?img=5" alt="Sarah Ali - Graphic Designer">
-
-                <h3>Sarah Ali</h3>
-
-                <p>Graphic Designer</p>
-
-                <div class="rating">
-                    ★★★★★
-                </div>
-
-                <button>View Profile</button>
-
-            </div>
-
-
-            <div class="freelancer-card">
-
-                <img src="https://i.pravatar.cc/150?img=12" alt="Usman Ahmad - Mobile App Developer">
-
-                <h3>Usman Ahmad</h3>
-
-                <p>Mobile App Developer</p>
-
-                <div class="rating">
-                    ★★★★☆
-                </div>
-
-                <button>View Profile</button>
-
-            </div>
-
         </div>
-
-    </section>
-
+    </div>
 
     <!-- Footer -->
     <footer>
-
         <div class="footer-content">
-
-            <h2>SkillConnect</h2>
-
-            <p>
-                Connecting clients with talented freelancers.
-            </p>
-
-            <p>
-                © 2026 SkillConnect. All rights reserved.
-            </p>
-
+            <h2>FHub</h2>
+            <p>Connecting clients with world-class freelance talent.</p>
+            <p>© 2026 FHub. All rights reserved.</p>
         </div>
-
     </footer>
 
-
     <script src="js/script.js"></script>
-
 </body>
 </html>
