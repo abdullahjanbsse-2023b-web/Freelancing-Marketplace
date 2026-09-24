@@ -6,7 +6,6 @@
     <title>FHub - Freelancing Marketplace</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
     <!-- Header Navigation -->
@@ -18,23 +17,25 @@
 
             <ul class="nav-links">
                 <li><a href="#" id="navHome" class="active">Browse Marketplace</a></li>
+                <li><a href="#" id="navJobs">Find Jobs</a></li>
                 <li><a href="#" id="navMyServices">My Services</a></li>
+                <li><a href="#" id="navMyProposals">My Proposals</a></li>
+                <li><a href="#" id="navOrders">My Orders</a></li>
                 <li><a href="#" id="navProfile">My Profile</a></li>
             </ul>
 
             <div class="auth-buttons">
-                <button class="register-btn" id="openCreateServiceBtn">+ Create Service</button>
+                <button class="register-btn" id="openPostJobBtn">+ Post a Job</button>
             </div>
         </nav>
     </header>
 
-    <!-- SECTION 1: MARKETPLACE VIEW (Week 2 Base) -->
-    <main id="marketplaceView">
+    <!-- SECTION 1: MARKETPLACE SERVICES VIEW -->
+    <main id="marketplaceView" class="view-section">
         <section class="hero">
             <div class="hero-content">
                 <h1>Find the right talent for your next project</h1>
                 <p>Connect with skilled freelancers and get your work done professionally.</p>
-
                 <div class="search-box">
                     <input type="text" id="searchInput" placeholder="Search for services, skills, or freelancers...">
                     <button id="searchBtn">Search</button>
@@ -67,12 +68,50 @@
             </div>
 
             <div class="freelancer-container" id="freelancerGrid">
-                <!-- Dynamically populated cards -->
+                <!-- Dynamically populated service cards -->
             </div>
         </section>
     </main>
 
-    <!-- SECTION 2: MY SERVICES DASHBOARD (Week 3 Feature) -->
+    <!-- SECTION 2: FIND JOBS VIEW -->
+    <main id="jobsView" class="view-section hidden">
+        <section class="dashboard-header">
+            <div>
+                <h2>Browse Available Jobs</h2>
+                <p>Find exciting freelance projects posted by clients worldwide.</p>
+            </div>
+        </section>
+
+        <div class="marketplace-controls">
+            <div class="search-box" style="margin: 0; max-width: 400px;">
+                <input type="text" id="jobSearchInput" placeholder="Search job title or skills...">
+            </div>
+
+            <div class="category-filters" id="jobCategoryFilters">
+                <button class="filter-btn active" data-jobcat="All">All</button>
+                <button class="filter-btn" data-jobcat="Web Development">Web Dev</button>
+                <button class="filter-btn" data-jobcat="Graphic Design">Design</button>
+                <button class="filter-btn" data-jobcat="Mobile Apps">Mobile Apps</button>
+                <button class="filter-btn" data-jobcat="Data Analysis">Data</button>
+                <button class="filter-btn" data-jobcat="Digital Marketing">Marketing</button>
+            </div>
+
+            <div class="sort-container">
+                <label for="jobSortSelect">Sort Budget:</label>
+                <select id="jobSortSelect">
+                    <option value="default">Newest</option>
+                    <option value="budget-high">Budget: High to Low</option>
+                    <option value="budget-low">Budget: Low to High</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="jobs-grid" id="jobsGrid" style="margin-top: 1.5rem;">
+            <!-- Dynamically populated job cards -->
+        </div>
+    </main>
+
+    <!-- SECTION 3: MY SERVICES DASHBOARD -->
     <main id="myServicesView" class="view-section hidden">
         <section class="dashboard-header">
             <div>
@@ -89,13 +128,39 @@
         </section>
     </main>
 
-    <!-- SECTION 3: USER PROFILE VIEW (Week 3 Feature) -->
+    <!-- SECTION 4: MY PROPOSALS VIEW -->
+    <main id="myProposalsView" class="view-section hidden">
+        <section class="dashboard-header">
+            <div>
+                <h2>My Submitted Proposals</h2>
+                <p>Track the status of your project applications and bids.</p>
+            </div>
+        </section>
+        <div class="proposals-list" id="proposalsGrid">
+            <!-- Dynamically populated submitted proposals -->
+        </div>
+    </main>
+
+    <!-- SECTION 5: MY ORDERS VIEW (TASK 4) -->
+    <main id="ordersView" class="view-section hidden" style="padding: 40px 5%; max-width: 1200px; margin: 0 auto;">
+        <section class="dashboard-header">
+            <div>
+                <h2>Client & Order Management</h2>
+                <p>Monitor active project lifecycles, deliverables, and client feedback.</p>
+            </div>
+        </section>
+        <div id="ordersGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; margin-top: 1.5rem;">
+            <!-- Order cards rendered dynamically -->
+        </div>
+    </main>
+
+    <!-- SECTION 6: USER PROFILE VIEW -->
     <main id="profileView" class="view-section hidden">
         <section class="profile-container">
             <div class="profile-card">
                 <img src="https://i.pravatar.cc/150?img=33" alt="Profile Picture" id="profileImg">
                 <h2 id="profileName">Abdullah Khan</h2>
-                <p class="prof-title" id="profileTitle">Full Stack Developer & Software Engineer</p>
+                <p class="prof-title" id="profileTitle">Software Engineer & Development Specialist</p>
 
                 <div class="profile-stats">
                     <div>
@@ -114,15 +179,16 @@
             <div class="profile-details">
                 <div class="detail-box">
                     <h3>About Me</h3>
-                    <p id="profileBio">Passionate software developer experienced in building web applications with modern HTML5, CSS3, JavaScript, and MERN stack architectures.</p>
+                    <p id="profileBio">Passionate software engineer and development professional experienced in full-stack web applications, game development in Unity, and agile project management.</p>
                 </div>
 
                 <div class="detail-box">
                     <h3>Skills & Expertise</h3>
                     <div class="skills-tags" id="profileSkills">
                         <span class="skill-tag">Web Development</span>
-                        <span class="skill-tag">JavaScript</span>
-                        <span class="skill-tag">React.js</span>
+                        <span class="skill-tag">Unity / C#</span>
+                        <span class="skill-tag">Agile Management</span>
+                        <span class="skill-tag">Data Analysis</span>
                         <span class="skill-tag">UI/UX Design</span>
                     </div>
                 </div>
@@ -130,7 +196,79 @@
         </section>
     </main>
 
-    <!-- MODAL 1: CREATE / EDIT SERVICE FORM -->
+    <!-- MODAL 1: POST A JOB FORM -->
+    <div class="modal-overlay" id="postJobModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closePostJobModal">&times;</button>
+            <h2>Post a New Job</h2>
+            <form id="postJobForm" class="modal-form">
+                <div class="form-group">
+                    <label for="jobTitleInput">Job Title *</label>
+                    <input type="text" id="jobTitleInput" placeholder="e.g. Build a Modern E-Commerce Store" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="jobCategoryInput">Category *</label>
+                    <select id="jobCategoryInput" required>
+                        <option value="">Select Category</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Graphic Design">Graphic Design</option>
+                        <option value="Mobile Apps">Mobile Apps</option>
+                        <option value="Data Analysis">Data Analysis</option>
+                        <option value="Digital Marketing">Digital Marketing</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="jobBudgetInput">Budget ($) *</label>
+                    <input type="number" id="jobBudgetInput" min="10" placeholder="e.g. 500" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="jobSkillsInput">Required Skills (comma separated) *</label>
+                    <input type="text" id="jobSkillsInput" placeholder="e.g. HTML, CSS, JavaScript, React" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="jobDescInput">Project Description *</label>
+                    <textarea id="jobDescInput" rows="4" placeholder="Describe the project scope, deliverables, and requirements..." required></textarea>
+                </div>
+
+                <button type="submit" class="register-btn" style="width: 100%;">Post Job</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 2: SUBMIT PROPOSAL FORM -->
+    <div class="modal-overlay" id="submitProposalModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeProposalModal">&times;</button>
+            <div id="jobDetailsContent" style="margin-bottom: 1.5rem;"></div>
+            <h2>Submit Your Proposal</h2>
+            <form id="proposalForm" class="modal-form">
+                <input type="hidden" id="proposalJobId">
+
+                <div class="form-group">
+                    <label for="proposalPrice">Proposed Bid ($) *</label>
+                    <input type="number" id="proposalPrice" min="5" placeholder="e.g. 450" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="proposalDuration">Estimated Delivery (Days) *</label>
+                    <input type="number" id="proposalDuration" min="1" placeholder="e.g. 7" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="proposalCoverLetter">Cover Letter *</label>
+                    <textarea id="proposalCoverLetter" rows="4" placeholder="Explain why you are the best fit for this project..." required></textarea>
+                </div>
+
+                <button type="submit" class="register-btn" style="width: 100%;">Submit Proposal</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: CREATE / EDIT SERVICE FORM -->
     <div class="modal-overlay" id="serviceModal">
         <div class="modal-content">
             <button class="close-modal" id="closeServiceModal">&times;</button>
@@ -141,7 +279,6 @@
                 <div class="form-group">
                     <label for="serviceTitleInput">Service Title *</label>
                     <input type="text" id="serviceTitleInput" placeholder="e.g. I will build a responsive website" required>
-                    <small class="error-msg" id="titleError"></small>
                 </div>
 
                 <div class="form-group">
@@ -154,19 +291,16 @@
                         <option value="Data Analysis">Data Analysis</option>
                         <option value="Digital Marketing">Digital Marketing</option>
                     </select>
-                    <small class="error-msg" id="categoryError"></small>
                 </div>
 
                 <div class="form-group">
                     <label for="servicePriceInput">Starting Price ($) *</label>
                     <input type="number" id="servicePriceInput" min="5" placeholder="e.g. 100" required>
-                    <small class="error-msg" id="priceError"></small>
                 </div>
 
                 <div class="form-group">
                     <label for="serviceDescInput">Description *</label>
                     <textarea id="serviceDescInput" rows="4" placeholder="Describe what you offer in this service..." required></textarea>
-                    <small class="error-msg" id="descError"></small>
                 </div>
 
                 <button type="submit" class="register-btn" style="width: 100%;">Save Service</button>
@@ -174,12 +308,16 @@
         </div>
     </div>
 
-    <!-- MODAL 2: EDIT PROFILE FORM -->
+    <!-- MODAL 4: EDIT PROFILE FORM -->
     <div class="modal-overlay" id="editProfileModal">
         <div class="modal-content">
             <button class="close-modal" id="closeProfileModal">&times;</button>
             <h2>Edit Profile</h2>
             <form id="profileForm" class="modal-form">
+                <div class="form-group">
+                    <label for="inputProfileImg">Profile Picture</label>
+                    <input type="file" id="inputProfileImg" accept="image/*">
+                </div>
                 <div class="form-group">
                     <label for="inputName">Full Name *</label>
                     <input type="text" id="inputName" required>
@@ -197,11 +335,38 @@
         </div>
     </div>
 
-    <!-- MODAL 3: VIEW SERVICE DETAILS -->
+    <!-- MODAL 5: VIEW SERVICE DETAILS -->
     <div class="modal-overlay" id="detailsModal">
         <div class="modal-content">
             <button class="close-modal" id="closeDetailsModal">&times;</button>
             <div id="detailsModalBody"></div>
+        </div>
+    </div>
+
+    <!-- MODAL 6: REVIEW & FEEDBACK MODAL (TASK 4) -->
+    <div class="modal-overlay" id="reviewModal" style="display: none; justify-content: center; align-items: center;">
+        <div class="modal-content">
+            <button class="close-modal" id="closeReviewModal">&times;</button>
+            <h2>Leave Feedback & Rating</h2>
+            <form id="reviewForm" class="modal-form" style="margin-top: 15px;">
+                <input type="hidden" id="reviewOrderId">
+                <input type="hidden" id="reviewServiceId">
+                <div class="form-group">
+                    <label for="reviewRating">Rating (1 to 5 Stars)</label>
+                    <select id="reviewRating" required>
+                        <option value="5">★★★★★ (5/5)</option>
+                        <option value="4">★★★★☆ (4/5)</option>
+                        <option value="3">★★★☆☆ (3/5)</option>
+                        <option value="2">★★☆☆☆ (2/5)</option>
+                        <option value="1">★☆☆☆☆ (1/5)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reviewComment">Review Comments *</label>
+                    <textarea id="reviewComment" rows="4" placeholder="Describe your experience..." required></textarea>
+                </div>
+                <button type="submit" class="register-btn" style="width: 100%;">Submit Review</button>
+            </form>
         </div>
     </div>
 

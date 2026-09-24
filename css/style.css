@@ -1,4 +1,6 @@
-/* Base & Layout Rules */
+/* ==========================================================================
+   Base & Layout Rules
+   ========================================================================== */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -16,7 +18,9 @@ body {
   display: none !important;
 }
 
-/* Navbar */
+/* ==========================================================================
+   Navbar Styles
+   ========================================================================== */
 .navbar {
   height: 80px;
   display: flex;
@@ -62,6 +66,11 @@ body {
   background: #0f172a;
   color: white;
   border: none;
+  transition: background 0.2s ease;
+}
+
+.register-btn:hover {
+  background: #1e293b;
 }
 
 .login-btn {
@@ -70,7 +79,9 @@ body {
   color: #0f172a;
 }
 
-/* Sections */
+/* ==========================================================================
+   Hero & Search Section
+   ========================================================================== */
 main {
   padding-bottom: 60px;
 }
@@ -104,14 +115,19 @@ main {
   cursor: pointer;
 }
 
-/* Marketplace Grid */
-section.marketplace {
+/* ==========================================================================
+   Marketplace & Controls (Services + Jobs)
+   ========================================================================== */
+section.marketplace, .view-section {
   padding: 40px 8%;
 }
 
 .marketplace-controls {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
   margin-bottom: 30px;
 }
 
@@ -127,13 +143,33 @@ section.marketplace {
   border-radius: 20px;
   background: white;
   cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
 }
 
-.filter-btn.active {
+.filter-btn.active, .filter-btn:hover {
   background: #0f172a;
   color: white;
+  border-color: #0f172a;
 }
 
+.sort-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sort-container select {
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: white;
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   Service & Freelancer Cards
+   ========================================================================== */
 .freelancer-container, .my-services-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -148,6 +184,13 @@ section.marketplace {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.freelancer-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .freelancer-card img {
@@ -169,21 +212,155 @@ section.marketplace {
 .card-meta {
   display: flex;
   justify-content: space-between;
-  margin: 15px 0;
+  margin: 15px 0 0;
   padding-top: 10px;
   border-top: 1px solid #f1f5f9;
+  font-weight: bold;
 }
 
-/* My Services Dashboard */
+/* ==========================================================================
+   WEEK 4: Job Cards & Grid Styling
+   ========================================================================== */
+.jobs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+.job-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.job-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.job-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.job-title {
+  font-size: 1.15rem;
+  font-weight: bold;
+  color: #0f172a;
+}
+
+.job-budget {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #16a34a;
+  background: #f0fdf4;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #bbf7d0;
+  white-space: nowrap;
+}
+
+.job-description {
+  color: #475569;
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.job-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 15px;
+}
+
+.job-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid #f1f5f9;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+/* ==========================================================================
+   WEEK 4: Proposals Dashboard Styling
+   ========================================================================== */
+.proposals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.proposal-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.proposal-info h4 {
+  font-size: 1.1rem;
+  color: #0f172a;
+  margin-bottom: 6px;
+}
+
+.proposal-details {
+  display: flex;
+  gap: 15px;
+  font-size: 0.9rem;
+  color: #475569;
+}
+
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.status-pending {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.status-accepted {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.status-rejected {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* ==========================================================================
+   My Services Dashboard & Actions
+   ========================================================================== */
 .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 8% 20px;
-}
-
-.services-dashboard {
-  padding: 0 8%;
+  padding-bottom: 20px;
 }
 
 .card-actions {
@@ -207,12 +384,13 @@ section.marketplace {
   border-color: #fca5a5 !important;
 }
 
-/* User Profile Styles */
+/* ==========================================================================
+   User Profile Styles
+   ========================================================================== */
 .profile-container {
   display: grid;
   grid-template-columns: 320px 1fr;
   gap: 30px;
-  padding: 40px 8%;
 }
 
 .profile-card {
@@ -265,9 +443,12 @@ section.marketplace {
   border-radius: 20px;
   font-size: 14px;
   color: #334155;
+  font-weight: 500;
 }
 
-/* Modal Overlay & Forms */
+/* ==========================================================================
+   Modal Overlay & Forms
+   ========================================================================== */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -285,6 +466,8 @@ section.marketplace {
   background: white;
   width: 90%;
   max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
   border-radius: 12px;
   padding: 30px;
   position: relative;
@@ -298,6 +481,7 @@ section.marketplace {
   border: none;
   background: none;
   cursor: pointer;
+  color: #64748b;
 }
 
 .modal-form {
@@ -325,6 +509,9 @@ section.marketplace {
   font-size: 12px;
 }
 
+/* ==========================================================================
+   Footer
+   ========================================================================== */
 footer {
   text-align: center;
   padding: 20px;
