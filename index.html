@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FHub - Freelancing Marketplace</title>
-    
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
+    <!-- Header Navigation -->
     <header>
         <nav class="navbar">
             <a href="#" class="logo">
@@ -17,107 +17,196 @@
             </a>
 
             <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#marketplace">Find Services</a></li>
-                <li><a href="#freelancers">Top Freelancers</a></li>
-                <li><a href="#about">How It Works</a></li>
+                <li><a href="#" id="navHome" class="active">Browse Marketplace</a></li>
+                <li><a href="#" id="navMyServices">My Services</a></li>
+                <li><a href="#" id="navProfile">My Profile</a></li>
             </ul>
 
             <div class="auth-buttons">
-                <button class="login-btn">Login</button>
-                <button class="register-btn">Register</button>
+                <button class="register-btn" id="openCreateServiceBtn">+ Create Service</button>
             </div>
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Find the right talent for your next project</h1>
-            <p>Connect with skilled freelancers and get your work done professionally.</p>
+    <!-- SECTION 1: MARKETPLACE VIEW (Week 2 Base) -->
+    <main id="marketplaceView">
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Find the right talent for your next project</h1>
+                <p>Connect with skilled freelancers and get your work done professionally.</p>
 
-            <div class="search-box">
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Search for services, skills, or freelancers..."
-                >
-                <button id="searchBtn">Search</button>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search for services, skills, or freelancers...">
+                    <button id="searchBtn">Search</button>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Marketplace & Services Section -->
-    <section class="marketplace" id="marketplace">
-        <h2>Explore Services & Freelancers</h2>
+        <section class="marketplace" id="marketplace">
+            <h2>Explore Services & Freelancers</h2>
 
-        <!-- Controls: Category Filter & Sorting -->
-        <div class="marketplace-controls">
-            <div class="category-filters" id="categoryFilters">
-                <button class="filter-btn active" data-category="All">All</button>
-                <button class="filter-btn" data-category="Web Development">Web Dev</button>
-                <button class="filter-btn" data-category="Graphic Design">Design</button>
-                <button class="filter-btn" data-category="Mobile Apps">Mobile Apps</button>
-                <button class="filter-btn" data-category="Data Analysis">Data</button>
-                <button class="filter-btn" data-category="Digital Marketing">Marketing</button>
+            <div class="marketplace-controls">
+                <div class="category-filters" id="categoryFilters">
+                    <button class="filter-btn active" data-category="All">All</button>
+                    <button class="filter-btn" data-category="Web Development">Web Dev</button>
+                    <button class="filter-btn" data-category="Graphic Design">Design</button>
+                    <button class="filter-btn" data-category="Mobile Apps">Mobile Apps</button>
+                    <button class="filter-btn" data-category="Data Analysis">Data</button>
+                    <button class="filter-btn" data-category="Digital Marketing">Marketing</button>
+                </div>
+
+                <div class="sort-container">
+                    <label for="sortSelect">Sort By:</label>
+                    <select id="sortSelect">
+                        <option value="default">Featured</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="sort-container">
-                <label for="sortSelect">Sort By:</label>
-                <select id="sortSelect">
-                    <option value="default">Featured</option>
-                    <option value="rating">Highest Rated</option>
-                    <option value="price-low">Price: Low to High</option>
-                    <option value="price-high">Price: High to Low</option>
-                </select>
+            <div class="freelancer-container" id="freelancerGrid">
+                <!-- Dynamically populated cards -->
             </div>
-        </div>
+        </section>
+    </main>
 
-        <!-- Dynamic Card Grid -->
-        <div class="freelancer-container" id="freelancerGrid">
-            <!-- Cards rendered dynamically via JavaScript -->
-        </div>
-    </section>
+    <!-- SECTION 2: MY SERVICES DASHBOARD (Week 3 Feature) -->
+    <main id="myServicesView" class="view-section hidden">
+        <section class="dashboard-header">
+            <div>
+                <h2>My Active Services</h2>
+                <p>Manage, edit, or delete the services you offer on FHub.</p>
+            </div>
+            <button class="register-btn" id="dashboardCreateServiceBtn">+ Add New Service</button>
+        </section>
 
-    <!-- How It Works Section -->
-    <section class="how-it-works" id="about">
-        <h2>How It Works</h2>
-        <div class="steps">
-            <div class="step">
-                <span>01</span>
-                <h3>Search</h3>
-                <p>Find the exact service or skilled freelancer you need.</p>
+        <section class="services-dashboard">
+            <div class="my-services-grid" id="myServicesGrid">
+                <!-- User services rendered dynamically -->
             </div>
-            <div class="step">
-                <span>02</span>
-                <h3>Choose</h3>
-                <p>Compare ratings, portfolios, and pricing transparently.</p>
-            </div>
-            <div class="step">
-                <span>03</span>
-                <h3>Hire</h3>
-                <p>Hire talent directly and collaborate on your timeline.</p>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <!-- Modal for Profile / Service Details -->
-    <div class="modal-overlay" id="profileModal">
+    <!-- SECTION 3: USER PROFILE VIEW (Week 3 Feature) -->
+    <main id="profileView" class="view-section hidden">
+        <section class="profile-container">
+            <div class="profile-card">
+                <img src="https://i.pravatar.cc/150?img=33" alt="Profile Picture" id="profileImg">
+                <h2 id="profileName">Abdullah Khan</h2>
+                <p class="prof-title" id="profileTitle">Full Stack Developer & Software Engineer</p>
+
+                <div class="profile-stats">
+                    <div>
+                        <strong id="profileRating">★ 4.9</strong>
+                        <span>Rating</span>
+                    </div>
+                    <div>
+                        <strong id="profileOrderCount">14</strong>
+                        <span>Completed</span>
+                    </div>
+                </div>
+
+                <button class="login-btn" id="editProfileBtn" style="width: 100%; margin-top: 15px;">Edit Profile</button>
+            </div>
+
+            <div class="profile-details">
+                <div class="detail-box">
+                    <h3>About Me</h3>
+                    <p id="profileBio">Passionate software developer experienced in building web applications with modern HTML5, CSS3, JavaScript, and MERN stack architectures.</p>
+                </div>
+
+                <div class="detail-box">
+                    <h3>Skills & Expertise</h3>
+                    <div class="skills-tags" id="profileSkills">
+                        <span class="skill-tag">Web Development</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">React.js</span>
+                        <span class="skill-tag">UI/UX Design</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL 1: CREATE / EDIT SERVICE FORM -->
+    <div class="modal-overlay" id="serviceModal">
         <div class="modal-content">
-            <button class="close-modal" id="closeModal">&times;</button>
-            <div class="modal-body" id="modalBody">
-                <!-- Profile details injected via JS -->
-            </div>
+            <button class="close-modal" id="closeServiceModal">&times;</button>
+            <h2 id="serviceModalTitle">Create New Service</h2>
+            <form id="serviceForm" class="modal-form">
+                <input type="hidden" id="serviceId">
+
+                <div class="form-group">
+                    <label for="serviceTitleInput">Service Title *</label>
+                    <input type="text" id="serviceTitleInput" placeholder="e.g. I will build a responsive website" required>
+                    <small class="error-msg" id="titleError"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceCategoryInput">Category *</label>
+                    <select id="serviceCategoryInput" required>
+                        <option value="">Select Category</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Graphic Design">Graphic Design</option>
+                        <option value="Mobile Apps">Mobile Apps</option>
+                        <option value="Data Analysis">Data Analysis</option>
+                        <option value="Digital Marketing">Digital Marketing</option>
+                    </select>
+                    <small class="error-msg" id="categoryError"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="servicePriceInput">Starting Price ($) *</label>
+                    <input type="number" id="servicePriceInput" min="5" placeholder="e.g. 100" required>
+                    <small class="error-msg" id="priceError"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="serviceDescInput">Description *</label>
+                    <textarea id="serviceDescInput" rows="4" placeholder="Describe what you offer in this service..." required></textarea>
+                    <small class="error-msg" id="descError"></small>
+                </div>
+
+                <button type="submit" class="register-btn" style="width: 100%;">Save Service</button>
+            </form>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <h2>FHub</h2>
-            <p>Connecting clients with world-class freelance talent.</p>
-            <p>© 2026 FHub. All rights reserved.</p>
+    <!-- MODAL 2: EDIT PROFILE FORM -->
+    <div class="modal-overlay" id="editProfileModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeProfileModal">&times;</button>
+            <h2>Edit Profile</h2>
+            <form id="profileForm" class="modal-form">
+                <div class="form-group">
+                    <label for="inputName">Full Name *</label>
+                    <input type="text" id="inputName" required>
+                </div>
+                <div class="form-group">
+                    <label for="inputTitle">Professional Title *</label>
+                    <input type="text" id="inputTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="inputBio">Bio / About *</label>
+                    <textarea id="inputBio" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="register-btn" style="width: 100%;">Update Profile</button>
+            </form>
         </div>
+    </div>
+
+    <!-- MODAL 3: VIEW SERVICE DETAILS -->
+    <div class="modal-overlay" id="detailsModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeDetailsModal">&times;</button>
+            <div id="detailsModalBody"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 FHub Freelancing Marketplace. All rights reserved.</p>
     </footer>
 
     <script src="js/script.js"></script>

@@ -1,5 +1,5 @@
-// Sample Freelancer & Service Data
-const freelancers = [
+// Sample Base Freelancer Data
+const defaultServices = [
   {
     id: 1,
     name: "Ahmed Khan",
@@ -9,7 +9,8 @@ const freelancers = [
     rating: 4.9,
     reviews: 38,
     img: "https://i.pravatar.cc/150?img=11",
-    description: "Full Stack Web Developer with 5+ years of experience in React, Node.js, and modern UI engineering."
+    description: "Full Stack Web Developer specialized in building scalable web apps with modern JavaScript.",
+    isUserCreated: false
   },
   {
     id: 2,
@@ -20,182 +21,270 @@ const freelancers = [
     rating: 5.0,
     reviews: 64,
     img: "https://i.pravatar.cc/150?img=5",
-    description: "Creative designer specializing in minimalism, vector graphic artwork, and responsive branding design."
-  },
-  {
-    id: 3,
-    name: "Usman Ahmad",
-    serviceTitle: "Cross-Platform iOS & Android App",
-    category: "Mobile Apps",
-    price: 250,
-    rating: 4.7,
-    reviews: 19,
-    img: "https://i.pravatar.cc/150?img=12",
-    description: "Mobile developer delivering high-performance cross-platform applications built with Flutter."
-  },
-  {
-    id: 4,
-    name: "Ayesha Malik",
-    serviceTitle: "Data Analysis & Interactive Visualizations",
-    category: "Data Analysis",
-    price: 120,
-    rating: 4.8,
-    reviews: 27,
-    img: "https://i.pravatar.cc/150?img=9",
-    description: "Data specialist handling Python analysis, Pandas dataset cleaning, and Power BI dashboard creation."
-  },
-  {
-    id: 5,
-    name: "Bilal Hassan",
-    serviceTitle: "SEO Optimization & Digital Growth Strategy",
-    category: "Digital Marketing",
-    price: 95,
-    rating: 4.6,
-    reviews: 42,
-    img: "https://i.pravatar.cc/150?img=13",
-    description: "Performance marketing consultant driving traffic growth via targeted SEO and ad campaign optimization."
-  },
-  {
-    id: 6,
-    name: "Zainab Fatima",
-    serviceTitle: "UI/UX Mobile & Web Interface Design",
-    category: "Graphic Design",
-    price: 110,
-    rating: 4.9,
-    reviews: 51,
-    img: "https://i.pravatar.cc/150?img=20",
-    description: "Figma UI/UX designer focused on intuitive design systems, mobile responsiveness, and user testing."
+    description: "Creative designer specializing in minimalism, vector graphics, and responsive visual branding.",
+    isUserCreated: false
   }
 ];
 
-// State variables
+// App State
+let services = JSON.parse(localStorage.getItem("fhub_services")) || defaultServices;
+let userProfile = JSON.parse(localStorage.getItem("fhub_profile")) || {
+  name: "Abdullah Jan",
+  title: "Full Stack Developer & Software Engineer",
+  bio: "Passionate software developer experienced in building web applications with modern HTML5, CSS3, JavaScript, and MERN stack architectures.",
+  rating: 4.9,
+  completed: 14
+};
+
 let currentCategory = "All";
 let searchQuery = "";
 let currentSort = "default";
 
 // DOM Elements
-const grid = document.getElementById("freelancerGrid");
-const searchInput = document.getElementById("searchInput");
-const searchBtn = document.getElementById("searchBtn");
-const categoryFilters = document.getElementById("categoryFilters");
-const sortSelect = document.getElementById("sortSelect");
+const marketplaceView = document.getElementById("marketplaceView");
+const myServicesView = document.getElementById("myServicesView");
+const profileView = document.getElementById("profileView");
 
-const profileModal = document.getElementById("profileModal");
-const modalBody = document.getElementById("modalBody");
-const closeModal = document.getElementById("closeModal");
+const navHome = document.getElementById("navHome");
+const navMyServices = document.getElementById("navMyServices");
+const navProfile = document.getElementById("navProfile");
 
-// Initial Render
+const freelancerGrid = document.getElementById("freelancerGrid");
+const myServicesGrid = document.getElementById("myServicesGrid");
+
+// Service Modal & Form Elements
+const serviceModal = document.getElementById("serviceModal");
+const serviceForm = document.getElementById("serviceForm");
+const openCreateServiceBtn = document.getElementById("openCreateServiceBtn");
+const dashboardCreateServiceBtn = document.getElementById("dashboardCreateServiceBtn");
+const closeServiceModal = document.getElementById("closeServiceModal");
+
+// Profile Elements
+const editProfileBtn = document.getElementById("editProfileBtn");
+const editProfileModal = document.getElementById("editProfileModal");
+const closeProfileModal = document.getElementById("closeProfileModal");
+const profileForm = document.getElementById("profileForm");
+
+// Initial Setup
 document.addEventListener("DOMContentLoaded", () => {
-  renderCards();
+  renderMarketplace();
+  renderMyServices();
+  updateProfileDOM();
 });
 
-// Render Function
-function renderCards() {
-  let filtered = freelancers.filter(item => {
-    const matchesCategory = (currentCategory === "All") || (item.category === currentCategory);
+// View Navigation Router
+function showView(viewName) {
+  marketplaceView.classList.add("hidden");
+  myServicesView.classList.add("hidden");
+  profileView.classList.add("hidden");
+
+  navHome.classList.remove("active");
+  navMyServices.classList.remove("active");
+  navProfile.classList.remove("active");
+
+  if (viewName === "home") {
+    marketplaceView.classList.remove("hidden");
+    navHome.classList.add("active");
+  } else if (viewName === "myServices") {
+    myServicesView.classList.remove("hidden");
+    navMyServices.classList.add("active");
+    renderMyServices();
+  } else if (viewName === "profile") {
+    profileView.classList.remove("hidden");
+    navProfile.classList.add("active");
+  }
+}
+
+navHome.addEventListener("click", (e) => { e.preventDefault(); showView("home"); });
+navMyServices.addEventListener("click", (e) => { e.preventDefault(); showView("myServices"); });
+navProfile.addEventListener("click", (e) => { e.preventDefault(); showView("profile"); });
+
+// Render Marketplace Services
+function renderMarketplace() {
+  let filtered = services.filter(item => {
+    const matchesCat = (currentCategory === "All") || (item.category === currentCategory);
     const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          item.serviceTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                          item.category.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
+                          item.serviceTitle.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesCat && matchesSearch;
   });
 
-  // Sorting logic
-  if (currentSort === "price-low") {
-    filtered.sort((a, b) => a.price - b.price);
-  } else if (currentSort === "price-high") {
-    filtered.sort((a, b) => b.price - a.price);
-  } else if (currentSort === "rating") {
-    filtered.sort((a, b) => b.rating - a.rating);
-  }
+  if (currentSort === "price-low") filtered.sort((a,b) => a.price - b.price);
+  if (currentSort === "price-high") filtered.sort((a,b) => b.price - a.price);
+  if (currentSort === "rating") filtered.sort((a,b) => b.rating - a.rating);
 
-  grid.innerHTML = "";
-
-  if (filtered.length === 0) {
-    grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 40px;">No freelancers found matching your criteria.</p>`;
-    return;
-  }
-
-  filtered.forEach(freelancer => {
+  freelancerGrid.innerHTML = "";
+  filtered.forEach(item => {
     const card = document.createElement("div");
     card.className = "freelancer-card";
     card.innerHTML = `
       <div>
-        <img src="${freelancer.img}" alt="${freelancer.name}">
-        <div class="category-tag">${freelancer.category}</div>
-        <h3>${freelancer.name}</h3>
-        <p class="service-title">${freelancer.serviceTitle}</p>
+        <img src="${item.img}" alt="${item.name}">
+        <span class="category-tag">${item.category}</span>
+        <h3>${item.name}</h3>
+        <p>${item.serviceTitle}</p>
       </div>
-
       <div>
         <div class="card-meta">
-          <span class="rating-box">★ ${freelancer.rating} (${freelancer.reviews})</span>
-          <span class="price-box">From $${freelancer.price}</span>
+          <span>★ ${item.rating} (${item.reviews || 0})</span>
+          <strong>From $${item.price}</strong>
         </div>
-        <button onclick="openProfileModal(${freelancer.id})">View Details</button>
+        <button class="login-btn" style="width: 100%;" onclick="openDetailsModal(${item.id})">View Details</button>
       </div>
     `;
-    grid.appendChild(card);
+    freelancerGrid.appendChild(card);
   });
 }
 
-// Search Event Listeners
-searchInput.addEventListener("input", (e) => {
-  searchQuery = e.target.value;
-  renderCards();
-});
+// Render My Services Section
+function renderMyServices() {
+  const myServices = services.filter(s => s.isUserCreated);
+  myServicesGrid.innerHTML = "";
 
-searchBtn.addEventListener("click", () => {
-  renderCards();
-});
-
-// Category Filter Listener
-categoryFilters.addEventListener("click", (e) => {
-  if (e.target.classList.contains("filter-btn")) {
-    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
-    e.target.classList.add("active");
-    currentCategory = e.target.getAttribute("data-category");
-    renderCards();
+  if (myServices.length === 0) {
+    myServicesGrid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #64748b; padding: 40px;">You haven't created any services yet.</p>`;
+    return;
   }
-});
 
-// Sort Listener
-sortSelect.addEventListener("change", (e) => {
-  currentSort = e.target.value;
-  renderCards();
-});
-
-// Modal Detail View Functions
-window.openProfileModal = function(id) {
-  const item = freelancers.find(f => f.id === id);
-  if (!item) return;
-
-  modalBody.innerHTML = `
-    <div class="modal-profile-header">
-      <img src="${item.img}" alt="${item.name}">
+  myServices.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "freelancer-card";
+    card.innerHTML = `
       <div>
-        <h2>${item.name}</h2>
-        <p style="color: #64748b; font-weight: bold;">${item.category}</p>
-        <p style="color: #f59e0b; margin-top: 4px;">★ ${item.rating} (${item.reviews} reviews)</p>
+        <span class="category-tag">${item.category}</span>
+        <h3>${item.serviceTitle}</h3>
+        <p style="color: #64748b; font-size: 14px; margin-top: 5px;">${item.description}</p>
       </div>
-    </div>
-    <h4>Service Offered</h4>
-    <p>${item.serviceTitle}</p>
-    <h4>About</h4>
-    <p>${item.description}</p>
-    <h4>Starting Price</h4>
-    <p style="font-size: 20px; font-weight: bold; color: #0f172a;">$${item.price}</p>
-    <button class="hire-now-btn" onclick="alert('Booking request sent to ${item.name}!')">Hire ${item.name}</button>
-  `;
+      <div>
+        <div class="card-meta">
+          <strong>Price: $${item.price}</strong>
+        </div>
+        <div class="card-actions">
+          <button onclick="editService(${item.id})">Edit</button>
+          <button class="btn-delete" onclick="deleteService(${item.id})">Delete</button>
+        </div>
+      </div>
+    `;
+    myServicesGrid.appendChild(card);
+  });
+}
 
-  profileModal.style.display = "flex";
+// Create/Edit Service Form Logic
+function openServiceModal(serviceObj = null) {
+  serviceForm.reset();
+  if (serviceObj) {
+    document.getElementById("serviceModalTitle").innerText = "Edit Service";
+    document.getElementById("serviceId").value = serviceObj.id;
+    document.getElementById("serviceTitleInput").value = serviceObj.serviceTitle;
+    document.getElementById("serviceCategoryInput").value = serviceObj.category;
+    document.getElementById("servicePriceInput").value = serviceObj.price;
+    document.getElementById("serviceDescInput").value = serviceObj.description;
+  } else {
+    document.getElementById("serviceModalTitle").innerText = "Create New Service";
+    document.getElementById("serviceId").value = "";
+  }
+  serviceModal.style.display = "flex";
+}
+
+openCreateServiceBtn.addEventListener("click", () => openServiceModal());
+dashboardCreateServiceBtn.addEventListener("click", () => openServiceModal());
+closeServiceModal.addEventListener("click", () => serviceModal.style.display = "none");
+
+// Form Validation and Submission
+serviceForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const id = document.getElementById("serviceId").value;
+  const title = document.getElementById("serviceTitleInput").value.trim();
+  const category = document.getElementById("serviceCategoryInput").value;
+  const price = parseFloat(document.getElementById("servicePriceInput").value);
+  const description = document.getElementById("serviceDescInput").value.trim();
+
+  if (id) {
+    // Edit existing
+    const index = services.findIndex(s => s.id == id);
+    if (index !== -1) {
+      services[index].serviceTitle = title;
+      services[index].category = category;
+      services[index].price = price;
+      services[index].description = description;
+    }
+  } else {
+    // Create new
+    const newService = {
+      id: Date.now(),
+      name: userProfile.name,
+      serviceTitle: title,
+      category: category,
+      price: price,
+      rating: 5.0,
+      reviews: 0,
+      img: "https://i.pravatar.cc/150?img=33",
+      description: description,
+      isUserCreated: true
+    };
+    services.push(newService);
+  }
+
+  localStorage.setItem("fhub_services", JSON.stringify(services));
+  serviceModal.style.display = "none";
+  renderMarketplace();
+  renderMyServices();
+});
+
+// Edit & Delete Service Interactions
+window.editService = function(id) {
+  const item = services.find(s => s.id == id);
+  if (item) openServiceModal(item);
 };
 
-closeModal.addEventListener("click", () => {
-  profileModal.style.display = "none";
+window.deleteService = function(id) {
+  if (confirm("Are you sure you want to delete this service?")) {
+    services = services.filter(s => s.id != id);
+    localStorage.setItem("fhub_services", JSON.stringify(services));
+    renderMarketplace();
+    renderMyServices();
+  }
+};
+
+// Profile Logic
+function updateProfileDOM() {
+  document.getElementById("profileName").innerText = userProfile.name;
+  document.getElementById("profileTitle").innerText = userProfile.title;
+  document.getElementById("profileBio").innerText = userProfile.bio;
+  document.getElementById("inputName").value = userProfile.name;
+  document.getElementById("inputTitle").value = userProfile.title;
+  document.getElementById("inputBio").value = userProfile.bio;
+}
+
+editProfileBtn.addEventListener("click", () => editProfileModal.style.display = "flex");
+closeProfileModal.addEventListener("click", () => editProfileModal.style.display = "none");
+
+profileForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  userProfile.name = document.getElementById("inputName").value.trim();
+  userProfile.title = document.getElementById("inputTitle").value.trim();
+  userProfile.bio = document.getElementById("inputBio").value.trim();
+
+  localStorage.setItem("fhub_profile", JSON.stringify(userProfile));
+  updateProfileDOM();
+  editProfileModal.style.display = "none";
 });
 
-window.addEventListener("click", (e) => {
-  if (e.target === profileModal) {
-    profileModal.style.display = "none";
-  }
+// View Details Modal
+window.openDetailsModal = function(id) {
+  const item = services.find(s => s.id == id);
+  if (!item) return;
+
+  const modalBody = document.getElementById("detailsModalBody");
+  modalBody.innerHTML = `
+    <h2>${item.serviceTitle}</h2>
+    <p style="color: #64748b; font-weight: bold; margin-bottom: 10px;">${item.category} • Offered by ${item.name}</p>
+    <p>${item.description}</p>
+    <h3 style="margin-top: 15px;">Price: $${item.price}</h3>
+  `;
+  document.getElementById("detailsModal").style.display = "flex";
+};
+
+document.getElementById("closeDetailsModal").addEventListener("click", () => {
+  document.getElementById("detailsModal").style.display = "none";
 });
