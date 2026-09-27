@@ -75,6 +75,17 @@ body {
   border-bottom: 2px solid #10b981;
 }
 
+.badge {
+  background: #ef4444;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: bold;
+  margin-left: 4px;
+  display: inline-block;
+}
+
 .auth-buttons {
   display: flex;
   align-items: center;
@@ -1048,6 +1059,7 @@ section.marketplace h2 {
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  overflow-y: auto;
 }
 
 .modal-content {
@@ -1060,6 +1072,7 @@ section.marketplace h2 {
   padding: 32px;
   position: relative;
   box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  margin: 20px auto;
 }
 
 .modal-content h2 {
@@ -1128,6 +1141,416 @@ section.marketplace h2 {
 }
 
 /* ==========================================================================
+   Messages Modal Styles (Week 6)
+   ========================================================================== */
+.messages-container-modal {
+  display: flex;
+  height: 70vh;
+  background-color: #f5f5f5;
+}
+
+.conversations-sidebar {
+  width: 320px;
+  background: white;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.sidebar-header h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  color: #0f172a;
+}
+
+.conversations-list {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.conversation-item {
+  display: flex;
+  padding: 15px 20px;
+  border-bottom: 1px solid #f0f0f0;
+  cursor: pointer;
+  transition: background 0.2s;
+  position: relative;
+}
+
+.conversation-item:hover {
+  background: #f8f9fa;
+}
+
+.conversation-item.active {
+  background: #e3f2fd;
+}
+
+.conversation-item.unread {
+  background: #f0f7ff;
+}
+
+.conversation-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 12px;
+  object-fit: cover;
+}
+
+.conversation-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.conversation-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.conversation-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.conversation-time {
+  font-size: 11px;
+  color: #888;
+}
+
+.conversation-preview {
+  font-size: 13px;
+  color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.unread-badge {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: #0f172a;
+  color: white;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.chat-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+
+.chat-header {
+  padding: 18px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background: white;
+}
+
+.chat-user-info {
+  display: flex;
+  align-items: center;
+}
+
+.chat-user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.user-details h3 {
+  margin: 0;
+  font-size: 15px;
+  color: #0f172a;
+}
+
+.user-status {
+  font-size: 12px;
+  color: #888;
+}
+
+.user-status.online::before {
+  content: '●';
+  color: #4caf50;
+  margin-right: 5px;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  background: #f8f9fa;
+}
+
+.no-conversation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #999;
+  font-size: 15px;
+}
+
+.message {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.message.sent {
+  justify-content: flex-end;
+}
+
+.message-bubble {
+  max-width: 65%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.message.sent .message-bubble {
+  background: #0f172a;
+  color: white;
+}
+
+.message-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.message-time {
+  font-size: 10px;
+  color: #888;
+  margin-top: 4px;
+  display: block;
+}
+
+.message.sent .message-time {
+  color: rgba(255,255,255,0.7);
+  text-align: right;
+}
+
+.chat-input-container {
+  padding: 16px 20px;
+  border-top: 1px solid #e0e0e0;
+  background: white;
+}
+
+.chat-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 14px;
+  outline: none;
+}
+
+.chat-input input:focus {
+  border-color: #0f172a;
+}
+
+.btn-send {
+  background: #0f172a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.btn-send:hover {
+  background: #1e293b;
+}
+
+/* ==========================================================================
+   Notifications Modal Styles (Week 6)
+   ========================================================================== */
+.notifications-header-modal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.notifications-header-modal h2 {
+  margin: 0;
+}
+
+.notifications-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.notifications-list {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.notification-item {
+  display: flex;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s;
+  cursor: pointer;
+  position: relative;
+}
+
+.notification-item:hover {
+  background: #f8f9fa;
+}
+
+.notification-item.unread {
+  background: #f0f7ff;
+}
+
+.notification-item.unread::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #0f172a;
+}
+
+.notification-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.notification-icon.message {
+  background: #e3f2fd;
+}
+
+.notification-icon.project {
+  background: #fff3e0;
+}
+
+.notification-icon.review {
+  background: #fce4ec;
+}
+
+.notification-icon.completed {
+  background: #e8f5e9;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.notification-message {
+  color: #666;
+  font-size: 13px;
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+
+.notification-time {
+  color: #999;
+  font-size: 11px;
+}
+
+.no-notifications {
+  text-align: center;
+  padding: 50px 20px;
+  color: #999;
+}
+
+.no-notifications-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+/* ==========================================================================
+   Reviews Section (Week 6)
+   ========================================================================== */
+.reviews-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.review-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.reviewer-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #0f172a;
+}
+
+.review-rating {
+  color: #fbbf24;
+  font-size: 14px;
+}
+
+.review-text {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.review-date {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 footer {
@@ -1147,15 +1570,13 @@ footer {
   margin: 0 auto;
 }
 
-/* Footer Logo */
 .footer-brand img {
-  width: 100px;   /* Reduced logo size */
+  width: 100px;
   height: auto;
   display: block;
   margin-bottom: 10px;
 }
 
-/* Footer Text */
 .footer-brand p {
   color: #94a3b8;
   font-size: 0.88rem;
@@ -1315,6 +1736,25 @@ footer {
   .dashboard-header {
     flex-direction: column;
     align-items: flex-start;
+  }
+  
+  .messages-container-modal {
+    flex-direction: column;
+  }
+  
+  .conversations-sidebar {
+    width: 100%;
+    height: 40vh;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .chat-window {
+    height: 60vh;
+  }
+  
+  .message-bubble {
+    max-width: 80%;
   }
 }
 

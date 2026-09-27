@@ -16,7 +16,23 @@ const defaultServices = [
     deliveryTime: 7,
     skills: ["React", "Node.js", "MongoDB", "REST API"],
     serviceImg: "",
-    isUserCreated: true
+    isUserCreated: true,
+    reviewsList: [
+      {
+        id: 1,
+        reviewer: "Sarah Johnson",
+        rating: 5,
+        comment: "Excellent work! Very professional and delivered on time.",
+        date: "2026-09-15"
+      },
+      {
+        id: 2,
+        reviewer: "Mike Chen",
+        rating: 5,
+        comment: "Outstanding developer. Highly recommended!",
+        date: "2026-09-10"
+      }
+    ]
   },
   {
     id: 2,
@@ -31,7 +47,8 @@ const defaultServices = [
     deliveryTime: 5,
     skills: ["Adobe Illustrator", "Logo Design", "Branding"],
     serviceImg: "",
-    isUserCreated: false
+    isUserCreated: false,
+    reviewsList: []
   },
   {
     id: 3,
@@ -46,7 +63,8 @@ const defaultServices = [
     deliveryTime: 14,
     skills: ["React Native", "Expo", "Firebase"],
     serviceImg: "",
-    isUserCreated: false
+    isUserCreated: false,
+    reviewsList: []
   },
   {
     id: 4,
@@ -61,7 +79,8 @@ const defaultServices = [
     deliveryTime: 6,
     skills: ["Python", "Power BI", "SQL", "Pandas"],
     serviceImg: "",
-    isUserCreated: false
+    isUserCreated: false,
+    reviewsList: []
   },
   {
     id: 5,
@@ -76,7 +95,8 @@ const defaultServices = [
     deliveryTime: 10,
     skills: ["SEO", "Google Ads", "Social Media", "Analytics"],
     serviceImg: "",
-    isUserCreated: false
+    isUserCreated: false,
+    reviewsList: []
   }
 ];
 
@@ -169,11 +189,102 @@ const defaultOrders = [
   }
 ];
 
+const defaultConversations = [
+  {
+    id: 1,
+    name: "Sarah Ali",
+    avatar: "https://i.pravatar.cc/150?img=5",
+    lastMessage: "Thank you for the quick response!",
+    time: "5 min ago",
+    unread: 2,
+    online: true
+  },
+  {
+    id: 2,
+    name: "James Obi",
+    avatar: "https://i.pravatar.cc/150?img=12",
+    lastMessage: "When can we schedule a call?",
+    time: "1 hour ago",
+    unread: 0,
+    online: false
+  },
+  {
+    id: 3,
+    name: "TechCorp Solutions",
+    avatar: "https://i.pravatar.cc/150?img=60",
+    lastMessage: "The project looks great!",
+    time: "Yesterday",
+    unread: 1,
+    online: false
+  }
+];
+
+const defaultMessagesData = {
+  1: [
+    { id: 1, text: "Hi! I saw your web development service", sent: false, time: "10:30 AM" },
+    { id: 2, text: "Hello! Yes, I'd be happy to help with your project.", sent: true, time: "10:32 AM" },
+    { id: 3, text: "Great! Can we discuss the timeline?", sent: false, time: "10:35 AM" },
+    { id: 4, text: "Thank you for the quick response!", sent: false, time: "10:36 AM" }
+  ],
+  2: [
+    { id: 1, text: "Hello, I'm interested in your mobile app services", sent: false, time: "9:00 AM" },
+    { id: 2, text: "Hi! I'd love to help. What type of app are you building?", sent: true, time: "9:15 AM" },
+    { id: 3, text: "When can we schedule a call?", sent: false, time: "11:00 AM" }
+  ],
+  3: [
+    { id: 1, text: "We've reviewed your proposal", sent: false, time: "Yesterday" },
+    { id: 2, text: "The project looks great!", sent: false, time: "Yesterday" }
+  ]
+};
+
+const defaultNotifications = [
+  {
+    id: 1,
+    type: 'message',
+    icon: '💬',
+    title: 'New message from Sarah Ali',
+    message: 'Thank you for the quick response!',
+    time: '5 minutes ago',
+    read: false
+  },
+  {
+    id: 2,
+    type: 'project',
+    icon: '✅',
+    title: 'Proposal Accepted',
+    message: 'Your proposal for "E-Commerce Website" has been accepted.',
+    time: '2 hours ago',
+    read: false
+  },
+  {
+    id: 3,
+    type: 'completed',
+    icon: '🎉',
+    title: 'Project Completed',
+    message: 'The project "Mobile App Design" has been marked as completed.',
+    time: '1 day ago',
+    read: false
+  },
+  {
+    id: 4,
+    type: 'review',
+    icon: '⭐',
+    title: 'New Review Received',
+    message: 'Client left you a 5-star review!',
+    time: '2 days ago',
+    read: true
+  }
+];
+
 // State
 let services  = JSON.parse(localStorage.getItem("fhub_services"))  || defaultServices;
 let jobs      = JSON.parse(localStorage.getItem("fhub_jobs"))      || defaultJobs;
 let proposals = JSON.parse(localStorage.getItem("fhub_proposals")) || [];
 let orders    = JSON.parse(localStorage.getItem("fhub_orders"))    || defaultOrders;
+
+let conversations = JSON.parse(localStorage.getItem("fhub_conversations")) || defaultConversations;
+let messagesData = JSON.parse(localStorage.getItem("fhub_messages")) || defaultMessagesData;
+let notifications = JSON.parse(localStorage.getItem("fhub_notifications")) || defaultNotifications;
 
 let userProfile = JSON.parse(localStorage.getItem("fhub_profile")) || {
   name: "Abdullah Khan",
@@ -190,6 +301,8 @@ let searchQuery        = "";
 let currentSort        = "default";
 let currentOrderTab    = "all";
 let currentActiveOrderId = null;
+let currentConversation = null;
+let currentNotificationFilter = 'all';
 
 // ==========================================================================
 // 2. Utility Functions
@@ -217,6 +330,13 @@ function saveToStorage() {
   localStorage.setItem("fhub_profile",   JSON.stringify(userProfile));
 }
 
+function saveMessagingData() {
+  localStorage.setItem("fhub_conversations", JSON.stringify(conversations));
+  localStorage.setItem("fhub_messages", JSON.stringify(messagesData));
+  localStorage.setItem("fhub_notifications", JSON.stringify(notifications));
+  updateBadges();
+}
+
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) modal.style.display = "flex";
@@ -225,6 +345,47 @@ function openModal(modalId) {
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
   if (modal) modal.style.display = "none";
+}
+
+// Update badges
+function updateBadges() {
+  const unreadMessages = conversations.reduce((sum, c) => sum + (c.unread || 0), 0);
+  const unreadNotifs = notifications.filter(n => !n.read).length;
+  
+  const msgBadge = document.getElementById("messageBadge");
+  const notifBadge = document.getElementById("notificationBadge");
+  
+  if (msgBadge) {
+    if (unreadMessages > 0) {
+      msgBadge.textContent = unreadMessages;
+      msgBadge.style.display = 'inline';
+    } else {
+      msgBadge.style.display = 'none';
+    }
+  }
+  
+  if (notifBadge) {
+    if (unreadNotifs > 0) {
+      notifBadge.textContent = unreadNotifs;
+      notifBadge.style.display = 'inline';
+    } else {
+      notifBadge.style.display = 'none';
+    }
+  }
+}
+
+// Create notification helper
+function createNotification(type, title, message) {
+  notifications.unshift({
+    id: Date.now(),
+    type: type,
+    icon: type === 'message' ? '💬' : type === 'project' ? '📋' : type === 'review' ? '⭐' : '✅',
+    title: title,
+    message: message,
+    time: 'Just now',
+    read: false
+  });
+  saveMessagingData();
 }
 
 // ==========================================================================
@@ -239,7 +400,8 @@ const allViews = [
 
 const allNavLinks = [
   "navHome", "navFreelancers", "navJobs", "navMyServices",
-  "navMyProposals", "navOrders", "navAbout", "navProfile"
+  "navMyProposals", "navOrders", "navMessages", "navNotifications",
+  "navAbout", "navProfile"
 ];
 
 function showView(viewName) {
@@ -314,6 +476,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderOrders();
   updateProfileDOM();
   setupEventListeners();
+  setupMessagingListeners();
+  updateBadges();
 });
 
 function setupEventListeners() {
@@ -533,6 +697,7 @@ function setupEventListeners() {
       closeModal("postJobModal");
       renderJobs();
       showToast("Job posted successfully!", "success");
+      createNotification('project', 'Job Posted', `Your job "${title}" has been posted successfully.`);
     });
   }
 
@@ -581,6 +746,7 @@ function setupEventListeners() {
       renderJobs();
       renderProposals();
       showToast("Proposal submitted successfully!", "success");
+      createNotification('project', 'Proposal Submitted', `Your proposal for "${newProposal.jobTitle}" has been submitted.`);
     });
   }
 
@@ -648,7 +814,8 @@ function setupEventListeners() {
             img:          userProfile.img || "https://i.pravatar.cc/150?img=33",
             serviceImg:   imgDataUrl || "",
             description,
-            isUserCreated: true
+            isUserCreated: true,
+            reviewsList: []
           });
           showToast("Service created successfully!", "success");
         }
@@ -754,6 +921,7 @@ function setupEventListeners() {
         renderOrders();
         if (currentActiveOrderId) renderProjectDetails(currentActiveOrderId);
         showToast("Work submitted for client review!", "success");
+        createNotification('project', 'Work Submitted', `Your deliverable for "${order.title}" has been submitted.`);
       }
     });
   }
@@ -779,10 +947,24 @@ function setupEventListeners() {
 
       const service = services.find(s => s.id === serviceId);
       if (service) {
-        const totalReviews = (service.reviews || 0) + 1;
-        const newRating    = parseFloat((((service.rating || 5) * (service.reviews || 0) + rating) / totalReviews).toFixed(1));
-        service.reviews    = totalReviews;
-        service.rating     = newRating;
+        // Add review to reviewsList
+        if (!service.reviewsList) {
+          service.reviewsList = [];
+        }
+        
+        service.reviewsList.push({
+          id: Date.now(),
+          reviewer: userProfile.name,
+          rating: rating,
+          comment: comment,
+          date: new Date().toLocaleDateString()
+        });
+        
+        // Update average rating
+        const totalReviews = service.reviewsList.length;
+        const avgRating = service.reviewsList.reduce((sum, r) => sum + r.rating, 0) / totalReviews;
+        service.rating = parseFloat(avgRating.toFixed(1));
+        service.reviews = totalReviews;
       }
 
       saveToStorage();
@@ -792,6 +974,7 @@ function setupEventListeners() {
       renderMarketplace();
       if (currentActiveOrderId) renderProjectDetails(currentActiveOrderId);
       showToast("Thank you! Your review has been submitted.", "success");
+      createNotification('review', 'Review Submitted', 'You left a review for a completed project.');
     });
   }
 
@@ -804,7 +987,270 @@ function setupEventListeners() {
 }
 
 // ==========================================================================
-// 5. Render: Home Marketplace
+// 5. Messaging & Notifications Setup (Week 6)
+// ==========================================================================
+
+function setupMessagingListeners() {
+  // Messages modal
+  const navMessages = document.getElementById('navMessages');
+  const closeMessagesBtn = document.getElementById('closeMessagesModal');
+  const sendMessageBtn = document.getElementById('sendMessage');
+  const messageInput = document.getElementById('messageInput');
+  
+  if (navMessages) {
+    navMessages.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal('messagesModal');
+      loadConversations();
+      updateBadges();
+    });
+  }
+  
+  if (closeMessagesBtn) {
+    closeMessagesBtn.addEventListener('click', () => closeModal('messagesModal'));
+  }
+  
+  if (sendMessageBtn) {
+    sendMessageBtn.addEventListener('click', sendMessage);
+  }
+  
+  if (messageInput) {
+    messageInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+  }
+  
+  // Search conversations
+  const searchConversations = document.getElementById('searchConversations');
+  if (searchConversations) {
+    searchConversations.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      document.querySelectorAll('.conversation-item').forEach(item => {
+        const name = item.querySelector('.conversation-name').textContent.toLowerCase();
+        item.style.display = name.includes(searchTerm) ? 'flex' : 'none';
+      });
+    });
+  }
+  
+  // Notifications modal
+  const navNotifications = document.getElementById('navNotifications');
+  const closeNotificationsBtn = document.getElementById('closeNotificationsModal');
+  const markAllReadBtn = document.getElementById('markAllRead');
+  
+  if (navNotifications) {
+    navNotifications.addEventListener('click', (e) => {
+      e.preventDefault();
+      openModal('notificationsModal');
+      loadNotifications();
+    });
+  }
+  
+  if (closeNotificationsBtn) {
+    closeNotificationsBtn.addEventListener('click', () => closeModal('notificationsModal'));
+  }
+  
+  if (markAllReadBtn) {
+    markAllReadBtn.addEventListener('click', () => {
+      notifications.forEach(n => n.read = true);
+      saveMessagingData();
+      loadNotifications(currentNotificationFilter);
+    });
+  }
+  
+  // Notification filters
+  document.querySelectorAll('.notifications-filters .filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.notifications-filters .filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      currentNotificationFilter = this.dataset.filter;
+      loadNotifications(currentNotificationFilter);
+    });
+  });
+}
+
+// Load conversations
+function loadConversations() {
+  const conversationsList = document.getElementById('conversationsList');
+  if (!conversationsList) return;
+  
+  conversationsList.innerHTML = '';
+  
+  conversations.forEach(conversation => {
+    const div = document.createElement('div');
+    div.className = `conversation-item ${conversation.unread > 0 ? 'unread' : ''}`;
+    div.dataset.id = conversation.id;
+    
+    div.innerHTML = `
+      <img src="${conversation.avatar}" alt="${conversation.name}" class="conversation-avatar">
+      <div class="conversation-info">
+        <div class="conversation-header">
+          <span class="conversation-name">${conversation.name}</span>
+          <span class="conversation-time">${conversation.time}</span>
+        </div>
+        <p class="conversation-preview">${conversation.lastMessage}</p>
+      </div>
+      ${conversation.unread > 0 ? `<span class="unread-badge">${conversation.unread}</span>` : ''}
+    `;
+    
+    div.addEventListener('click', () => openConversation(conversation.id));
+    conversationsList.appendChild(div);
+  });
+}
+
+// Open conversation
+function openConversation(conversationId) {
+  currentConversation = conversationId;
+  const conversation = conversations.find(c => c.id === conversationId);
+  if (!conversation) return;
+  
+  // Update active state
+  document.querySelectorAll('.conversation-item').forEach(item => {
+    item.classList.remove('active');
+  });
+  const activeItem = document.querySelector(`[data-id="${conversationId}"]`);
+  if (activeItem) activeItem.classList.add('active');
+  
+  // Update chat header
+  const chatHeader = document.getElementById('chatHeader');
+  chatHeader.innerHTML = `
+    <div class="chat-user-info">
+      <img src="${conversation.avatar}" alt="${conversation.name}">
+      <div class="user-details">
+        <h3>${conversation.name}</h3>
+        <span class="user-status ${conversation.online ? 'online' : ''}">
+          ${conversation.online ? 'Online' : 'Offline'}
+        </span>
+      </div>
+    </div>
+  `;
+  
+  // Load messages
+  loadMessages(conversationId);
+  
+  // Show input
+  document.getElementById('chatInputContainer').style.display = 'block';
+  
+  // Mark as read
+  conversation.unread = 0;
+  saveMessagingData();
+  loadConversations();
+}
+
+// Load messages
+function loadMessages(conversationId) {
+  const chatMessages = document.getElementById('chatMessages');
+  const messages = messagesData[conversationId] || [];
+  
+  chatMessages.innerHTML = '';
+  
+  messages.forEach(message => {
+    const div = document.createElement('div');
+    div.className = `message ${message.sent ? 'sent' : 'received'}`;
+    
+    div.innerHTML = `
+      <div class="message-bubble">
+        <p class="message-text">${message.text}</p>
+        <span class="message-time">${message.time}</span>
+      </div>
+    `;
+    
+    chatMessages.appendChild(div);
+  });
+  
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+// Send message
+function sendMessage() {
+  const messageInput = document.getElementById('messageInput');
+  const messageText = messageInput.value.trim();
+  
+  if (messageText && currentConversation) {
+    const newMessage = {
+      id: Date.now(),
+      text: messageText,
+      sent: true,
+      time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
+    };
+    
+    if (!messagesData[currentConversation]) {
+      messagesData[currentConversation] = [];
+    }
+    messagesData[currentConversation].push(newMessage);
+    
+    // Update conversation
+    const conversation = conversations.find(c => c.id === currentConversation);
+    if (conversation) {
+      conversation.lastMessage = messageText;
+      conversation.time = 'Just now';
+    }
+    
+    saveMessagingData();
+    loadMessages(currentConversation);
+    loadConversations();
+    
+    messageInput.value = '';
+  }
+}
+
+// Load notifications
+function loadNotifications(filter = 'all') {
+  const notificationsList = document.getElementById('notificationsList');
+  if (!notificationsList) return;
+  
+  let filteredNotifications = notifications;
+  
+  if (filter === 'unread') {
+    filteredNotifications = notifications.filter(n => !n.read);
+  } else if (filter === 'messages') {
+    filteredNotifications = notifications.filter(n => n.type === 'message');
+  } else if (filter === 'projects') {
+    filteredNotifications = notifications.filter(n => n.type === 'project' || n.type === 'completed');
+  } else if (filter === 'reviews') {
+    filteredNotifications = notifications.filter(n => n.type === 'review');
+  }
+  
+  notificationsList.innerHTML = '';
+  
+  if (filteredNotifications.length === 0) {
+    notificationsList.innerHTML = `
+      <div class="no-notifications">
+        <div class="no-notifications-icon">🔔</div>
+        <p>No notifications found</p>
+      </div>
+    `;
+    return;
+  }
+  
+  filteredNotifications.forEach(notification => {
+    const div = document.createElement('div');
+    div.className = `notification-item ${!notification.read ? 'unread' : ''}`;
+    
+    div.innerHTML = `
+      <div class="notification-icon ${notification.type}">
+        ${notification.icon}
+      </div>
+      <div class="notification-content">
+        <div class="notification-title">${notification.title}</div>
+        <div class="notification-message">${notification.message}</div>
+        <div class="notification-time">${notification.time}</div>
+      </div>
+    `;
+    
+    div.addEventListener('click', () => {
+      notification.read = true;
+      saveMessagingData();
+      loadNotifications(currentNotificationFilter);
+    });
+    
+    notificationsList.appendChild(div);
+  });
+}
+
+// ==========================================================================
+// 6. Render: Home Marketplace
 // ==========================================================================
 
 function renderMarketplace() {
@@ -860,7 +1306,7 @@ function renderMarketplace() {
 }
 
 // ==========================================================================
-// 6. Render: Find Freelancers Browse View
+// 7. Render: Find Freelancers Browse View
 // ==========================================================================
 
 function renderFreelancerBrowse() {
@@ -915,7 +1361,7 @@ function renderFreelancerBrowse() {
 }
 
 // ==========================================================================
-// 7. Service Details Modal
+// 8. Service Details Modal with Reviews (Week 6)
 // ==========================================================================
 
 window.openDetailsModal = function(id) {
@@ -929,6 +1375,26 @@ window.openDetailsModal = function(id) {
       ? `<img src="${item.serviceImg}" alt="Service" style="width:100%;border-radius:10px;margin-bottom:15px;max-height:200px;object-fit:cover;">`
       : `<img src="${item.img}" alt="${item.name}" style="width:80px;height:80px;border-radius:50%;margin-bottom:12px;display:block;">`;
 
+    // Reviews section
+    let reviewsHtml = '';
+    if (item.reviewsList && item.reviewsList.length > 0) {
+      reviewsHtml = `
+        <div class="reviews-section">
+          <h3 style="margin-bottom: 12px;">Reviews (${item.reviewsList.length})</h3>
+          ${item.reviewsList.map(review => `
+            <div class="review-card">
+              <div class="review-header">
+                <span class="reviewer-name">${review.reviewer}</span>
+                <span class="review-rating">${'⭐'.repeat(review.rating)}</span>
+              </div>
+              <p class="review-text">${review.comment}</p>
+              <span class="review-date">${review.date}</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
     body.innerHTML = `
       ${imgHtml}
       <h2>${item.serviceTitle}</h2>
@@ -940,13 +1406,14 @@ window.openDetailsModal = function(id) {
         <strong style="font-size:1.1rem;color:#16a34a;">From $${item.price}</strong>
       </div>
       ${item.deliveryTime ? `<p style="font-size:0.85rem;color:#64748b;">Delivery: ${item.deliveryTime} days</p>` : ""}
+      ${reviewsHtml}
     `;
   }
   openModal("detailsModal");
 };
 
 // ==========================================================================
-// 8. Render: Jobs
+// 9. Render: Jobs
 // ==========================================================================
 
 function renderJobs() {
@@ -1023,7 +1490,7 @@ window.openJobDetailsModal = function(jobId) {
 };
 
 // ==========================================================================
-// 9. Render: My Proposals
+// 10. Render: My Proposals
 // ==========================================================================
 
 function renderProposals() {
@@ -1096,11 +1563,12 @@ window.acceptProposalToOrder = function(propIndex) {
   renderProposals();
   renderOrders();
   showToast(`Contract #${newOrder.id} created and is now active!`, "success");
+  createNotification('project', 'Contract Started', `Your contract for "${newOrder.title}" is now active.`);
   showView("orders");
 };
 
 // ==========================================================================
-// 10. Render: My Services
+// 11. Render: My Services
 // ==========================================================================
 
 function renderMyServices() {
@@ -1194,7 +1662,7 @@ window.deleteService = function(id) {
 };
 
 // ==========================================================================
-// 11. Render: Orders & Contracts
+// 12. Render: Orders & Contracts
 // ==========================================================================
 
 function getStatusClass(status) {
@@ -1282,7 +1750,7 @@ function renderOrders(filter = currentOrderTab) {
 }
 
 // ==========================================================================
-// 12. Project Details & Milestone Management
+// 13. Project Details & Milestone Management
 // ==========================================================================
 
 window.openProjectManagementDetails = function(orderId) {
@@ -1478,6 +1946,7 @@ window.approveWork = function(orderId) {
     renderProjectDetails(orderId);
     renderOrders();
     showToast("Project marked as Completed!", "success");
+    createNotification('completed', 'Project Completed', `The project "${order.title}" has been completed successfully.`);
   }
 };
 
@@ -1511,7 +1980,7 @@ window.openReviewModalFor = function(orderId, serviceId) {
 };
 
 // ==========================================================================
-// 13. User Profile DOM Update
+// 14. User Profile DOM Update
 // ==========================================================================
 
 function updateProfileDOM() {
