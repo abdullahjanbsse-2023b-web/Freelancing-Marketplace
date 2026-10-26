@@ -1,5 +1,5 @@
 // ==========================================================================
-// 1. Data & State
+// 1. Data & State (Upgraded for Week 7)
 // ==========================================================================
 
 const defaultServices = [
@@ -18,20 +18,8 @@ const defaultServices = [
     serviceImg: "",
     isUserCreated: true,
     reviewsList: [
-      {
-        id: 1,
-        reviewer: "Sarah Johnson",
-        rating: 5,
-        comment: "Excellent work! Very professional and delivered on time.",
-        date: "2026-09-15"
-      },
-      {
-        id: 2,
-        reviewer: "Mike Chen",
-        rating: 5,
-        comment: "Outstanding developer. Highly recommended!",
-        date: "2026-09-10"
-      }
+      { id: 1, reviewer: "Sarah Johnson", rating: 5, comment: "Excellent work! Very professional and delivered on time.", date: "2026-09-15" },
+      { id: 2, reviewer: "Mike Chen", rating: 5, comment: "Outstanding developer. Highly recommended!", date: "2026-09-10" }
     ]
   },
   {
@@ -165,122 +153,32 @@ const defaultOrders = [
     ],
     delivery: { link: "", notes: "", deliveredAt: null },
     review: null
-  },
-  {
-    id: 202,
-    title: "Minimalist Vector Logo & Style Guide",
-    providerName: "Sarah Ali",
-    clientName: "Nexus Brand Agency",
-    serviceId: 2,
-    price: 250,
-    deadline: "2026-09-18",
-    createdDate: "2026-09-10",
-    status: "Completed",
-    milestones: [
-      { id: "m10", title: "Initial Concept Sketches", completed: true },
-      { id: "m11", title: "Vector Design & Typography Guide", completed: true }
-    ],
-    delivery: {
-      link: "https://drive.google.com/sample-logo-assets",
-      notes: "Vector files (AI, SVG, PNG) and brand guide attached.",
-      deliveredAt: "2026-09-17"
-    },
-    review: { rating: 5, comment: "Exceptional design and swift delivery!" }
   }
 ];
 
 const defaultConversations = [
-  {
-    id: 1,
-    name: "Sarah Ali",
-    avatar: "https://i.pravatar.cc/150?img=5",
-    lastMessage: "Thank you for the quick response!",
-    time: "5 min ago",
-    unread: 2,
-    online: true
-  },
-  {
-    id: 2,
-    name: "James Obi",
-    avatar: "https://i.pravatar.cc/150?img=12",
-    lastMessage: "When can we schedule a call?",
-    time: "1 hour ago",
-    unread: 0,
-    online: false
-  },
-  {
-    id: 3,
-    name: "TechCorp Solutions",
-    avatar: "https://i.pravatar.cc/150?img=60",
-    lastMessage: "The project looks great!",
-    time: "Yesterday",
-    unread: 1,
-    online: false
-  }
+  { id: 1, name: "Sarah Ali", avatar: "https://i.pravatar.cc/150?img=5", lastMessage: "Thank you for the quick response!", time: "5 min ago", unread: 2, online: true },
+  { id: 2, name: "James Obi", avatar: "https://i.pravatar.cc/150?img=12", lastMessage: "When can we schedule a call?", time: "1 hour ago", unread: 0, online: false }
 ];
 
 const defaultMessagesData = {
   1: [
     { id: 1, text: "Hi! I saw your web development service", sent: false, time: "10:30 AM" },
-    { id: 2, text: "Hello! Yes, I'd be happy to help with your project.", sent: true, time: "10:32 AM" },
-    { id: 3, text: "Great! Can we discuss the timeline?", sent: false, time: "10:35 AM" },
-    { id: 4, text: "Thank you for the quick response!", sent: false, time: "10:36 AM" }
-  ],
-  2: [
-    { id: 1, text: "Hello, I'm interested in your mobile app services", sent: false, time: "9:00 AM" },
-    { id: 2, text: "Hi! I'd love to help. What type of app are you building?", sent: true, time: "9:15 AM" },
-    { id: 3, text: "When can we schedule a call?", sent: false, time: "11:00 AM" }
-  ],
-  3: [
-    { id: 1, text: "We've reviewed your proposal", sent: false, time: "Yesterday" },
-    { id: 2, text: "The project looks great!", sent: false, time: "Yesterday" }
+    { id: 2, text: "Hello! Yes, I'd be happy to help with your project.", sent: true, time: "10:32 AM" }
   ]
 };
 
 const defaultNotifications = [
-  {
-    id: 1,
-    type: 'message',
-    icon: '💬',
-    title: 'New message from Sarah Ali',
-    message: 'Thank you for the quick response!',
-    time: '5 minutes ago',
-    read: false
-  },
-  {
-    id: 2,
-    type: 'project',
-    icon: '✅',
-    title: 'Proposal Accepted',
-    message: 'Your proposal for "E-Commerce Website" has been accepted.',
-    time: '2 hours ago',
-    read: false
-  },
-  {
-    id: 3,
-    type: 'completed',
-    icon: '🎉',
-    title: 'Project Completed',
-    message: 'The project "Mobile App Design" has been marked as completed.',
-    time: '1 day ago',
-    read: false
-  },
-  {
-    id: 4,
-    type: 'review',
-    icon: '⭐',
-    title: 'New Review Received',
-    message: 'Client left you a 5-star review!',
-    time: '2 days ago',
-    read: true
-  }
+  { id: 1, type: 'message', icon: '💬', title: 'New message from Sarah Ali', message: 'Thank you for the quick response!', time: '5 minutes ago', read: false },
+  { id: 2, type: 'project', icon: '✅', title: 'Proposal Accepted', message: 'Your proposal for "E-Commerce Website" has been accepted.', time: '2 hours ago', read: false }
 ];
 
-// State
+// Persistent State
 let services  = JSON.parse(localStorage.getItem("fhub_services"))  || defaultServices;
 let jobs      = JSON.parse(localStorage.getItem("fhub_jobs"))      || defaultJobs;
 let proposals = JSON.parse(localStorage.getItem("fhub_proposals")) || [];
 let orders    = JSON.parse(localStorage.getItem("fhub_orders"))    || defaultOrders;
+let favorites = JSON.parse(localStorage.getItem("fhub_favorites")) || []; // Week 7 Favorites
 
 let conversations = JSON.parse(localStorage.getItem("fhub_conversations")) || defaultConversations;
 let messagesData = JSON.parse(localStorage.getItem("fhub_messages")) || defaultMessagesData;
@@ -289,8 +187,8 @@ let notifications = JSON.parse(localStorage.getItem("fhub_notifications")) || de
 let userProfile = JSON.parse(localStorage.getItem("fhub_profile")) || {
   name: "Abdullah Khan",
   title: "Software Engineer & Development Specialist",
-  bio: "Passionate software engineer experienced in full-stack web applications, game development in Unity, and agile project management.",
-  experience: "3+ years of professional software development experience, including freelance projects, internships, and full-time roles.",
+  bio: "Passionate software engineer experienced in full-stack web apps and agile project management.",
+  experience: "3+ years of professional software development experience.",
   rating: 4.9,
   completed: 14,
   img: "https://i.pravatar.cc/150?img=33"
@@ -303,9 +201,10 @@ let currentOrderTab    = "all";
 let currentActiveOrderId = null;
 let currentConversation = null;
 let currentNotificationFilter = 'all';
+let activeDashboardTab = 'client'; // Week 7 Dual Dashboards tab
 
 // ==========================================================================
-// 2. Utility Functions
+// 2. Utility Functions & Storage
 // ==========================================================================
 
 function showToast(message, type = "success") {
@@ -328,6 +227,7 @@ function saveToStorage() {
   localStorage.setItem("fhub_proposals", JSON.stringify(proposals));
   localStorage.setItem("fhub_orders",    JSON.stringify(orders));
   localStorage.setItem("fhub_profile",   JSON.stringify(userProfile));
+  localStorage.setItem("fhub_favorites", JSON.stringify(favorites));
 }
 
 function saveMessagingData() {
@@ -347,7 +247,6 @@ function closeModal(modalId) {
   if (modal) modal.style.display = "none";
 }
 
-// Update badges
 function updateBadges() {
   const unreadMessages = conversations.reduce((sum, c) => sum + (c.unread || 0), 0);
   const unreadNotifs = notifications.filter(n => !n.read).length;
@@ -356,32 +255,22 @@ function updateBadges() {
   const notifBadge = document.getElementById("notificationBadge");
   
   if (msgBadge) {
-    if (unreadMessages > 0) {
-      msgBadge.textContent = unreadMessages;
-      msgBadge.style.display = 'inline';
-    } else {
-      msgBadge.style.display = 'none';
-    }
+    msgBadge.textContent = unreadMessages;
+    msgBadge.style.display = unreadMessages > 0 ? 'inline' : 'none';
   }
-  
   if (notifBadge) {
-    if (unreadNotifs > 0) {
-      notifBadge.textContent = unreadNotifs;
-      notifBadge.style.display = 'inline';
-    } else {
-      notifBadge.style.display = 'none';
-    }
+    notifBadge.textContent = unreadNotifs;
+    notifBadge.style.display = unreadNotifs > 0 ? 'inline' : 'none';
   }
 }
 
-// Create notification helper
 function createNotification(type, title, message) {
   notifications.unshift({
     id: Date.now(),
-    type: type,
+    type,
     icon: type === 'message' ? '💬' : type === 'project' ? '📋' : type === 'review' ? '⭐' : '✅',
-    title: title,
-    message: message,
+    title,
+    message,
     time: 'Just now',
     read: false
   });
@@ -389,19 +278,19 @@ function createNotification(type, title, message) {
 }
 
 // ==========================================================================
-// 3. View Navigation
+// 3. View Navigation & Routing (Added Favorites & Dual Dashboards)
 // ==========================================================================
 
 const allViews = [
   "homeView", "freelancersView", "jobsView", "myServicesView",
   "myProposalsView", "ordersView", "projectDetailsView",
-  "aboutView", "profileView"
+  "aboutView", "profileView", "favoritesView", "dashboardView"
 ];
 
 const allNavLinks = [
   "navHome", "navFreelancers", "navJobs", "navMyServices",
   "navMyProposals", "navOrders", "navMessages", "navNotifications",
-  "navAbout", "navProfile"
+  "navAbout", "navProfile", "navFavorites", "navDashboard"
 ];
 
 function showView(viewName) {
@@ -424,7 +313,9 @@ function showView(viewName) {
     orders:         { view: "ordersView",         nav: "navOrders" },
     projectDetails: { view: "projectDetailsView", nav: "navOrders" },
     about:          { view: "aboutView",          nav: "navAbout" },
-    profile:        { view: "profileView",        nav: "navProfile" }
+    profile:        { view: "profileView",        nav: "navProfile" },
+    favorites:      { view: "favoritesView",      nav: "navFavorites" },
+    dashboard:      { view: "dashboardView",      nav: "navDashboard" }
   };
 
   const target = viewMap[viewName];
@@ -436,7 +327,7 @@ function showView(viewName) {
   if (viewEl) viewEl.classList.remove("hidden");
   if (navEl)  navEl.classList.add("active");
 
-  // Re-render on navigation
+  // Re-render views
   if (viewName === "home")        renderMarketplace();
   if (viewName === "freelancers") renderFreelancerBrowse();
   if (viewName === "jobs")        renderJobs();
@@ -444,19 +335,18 @@ function showView(viewName) {
   if (viewName === "proposals")   renderProposals();
   if (viewName === "orders")      renderOrders();
   if (viewName === "profile")     updateProfileDOM();
+  if (viewName === "favorites")   renderFavorites();
+  if (viewName === "dashboard")   renderDashboard();
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 
-  // Close hamburger menu on mobile
   const navLinksMenu = document.getElementById("navLinksMenu");
   if (navLinksMenu) navLinksMenu.classList.remove("open");
 }
 
-// Category shortcut from category cards
 window.filterByCategory = function(cat) {
   currentCategory = cat;
   showView("freelancers");
-  // sync filter buttons in freelancers view
   document.querySelectorAll("[data-fcat]").forEach(btn => {
     btn.classList.toggle("active", btn.dataset.fcat === cat);
   });
@@ -464,7 +354,7 @@ window.filterByCategory = function(cat) {
 };
 
 // ==========================================================================
-// 4. Setup All Event Listeners
+// 4. Initialization & Event Listeners
 // ==========================================================================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -474,6 +364,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderProposals();
   renderMyServices();
   renderOrders();
+  renderFavorites();
+  renderDashboard();
   updateProfileDOM();
   setupEventListeners();
   setupMessagingListeners();
@@ -481,17 +373,12 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function setupEventListeners() {
-
-  // --- Hamburger ---
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const navLinksMenu = document.getElementById("navLinksMenu");
   if (hamburgerBtn && navLinksMenu) {
-    hamburgerBtn.addEventListener("click", () => {
-      navLinksMenu.classList.toggle("open");
-    });
+    hamburgerBtn.addEventListener("click", () => navLinksMenu.classList.toggle("open"));
   }
 
-  // --- Nav Links ---
   const navMap = {
     navHome:        "home",
     navFreelancers: "freelancers",
@@ -500,7 +387,9 @@ function setupEventListeners() {
     navMyProposals: "proposals",
     navOrders:      "orders",
     navAbout:       "about",
-    navProfile:     "profile"
+    navProfile:     "profile",
+    navFavorites:   "favorites",
+    navDashboard:   "dashboard"
   };
 
   Object.entries(navMap).forEach(([id, view]) => {
@@ -508,82 +397,21 @@ function setupEventListeners() {
     if (el) el.addEventListener("click", (e) => { e.preventDefault(); showView(view); });
   });
 
-  // --- Back to Orders ---
   const backBtn = document.getElementById("backToOrdersBtn");
   if (backBtn) backBtn.addEventListener("click", () => showView("orders"));
 
-  // --- Auth Buttons ---
+  // Auth & Modals
   const openLoginBtn    = document.getElementById("openLoginBtn");
   const openRegisterBtn = document.getElementById("openRegisterBtn");
-  const switchToReg     = document.getElementById("switchToRegister");
-  const switchToLog     = document.getElementById("switchToLogin");
-
   if (openLoginBtn)    openLoginBtn.addEventListener("click",    () => openModal("loginModal"));
   if (openRegisterBtn) openRegisterBtn.addEventListener("click", () => openModal("registerModal"));
 
-  if (switchToReg) switchToReg.addEventListener("click", (e) => {
-    e.preventDefault();
-    closeModal("loginModal");
-    openModal("registerModal");
-  });
-
-  if (switchToLog) switchToLog.addEventListener("click", (e) => {
-    e.preventDefault();
-    closeModal("registerModal");
-    openModal("loginModal");
-  });
-
-  const closeLoginBtn    = document.getElementById("closeLoginModal");
-  const closeRegisterBtn = document.getElementById("closeRegisterModal");
-  if (closeLoginBtn)    closeLoginBtn.addEventListener("click",    () => closeModal("loginModal"));
-  if (closeRegisterBtn) closeRegisterBtn.addEventListener("click", () => closeModal("registerModal"));
-
-  // --- Login Form ---
-  const loginForm = document.getElementById("loginForm");
-  if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      closeModal("loginModal");
-      loginForm.reset();
-      showToast("Welcome back! You are now logged in.", "success");
-    });
-  }
-
-  // --- Register Form ---
-  const registerForm = document.getElementById("registerForm");
-  if (registerForm) {
-    registerForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const pass    = document.getElementById("regPassword").value;
-      const confirm = document.getElementById("regConfirmPassword").value;
-      if (pass !== confirm) {
-        showToast("Passwords do not match. Please try again.", "error");
-        return;
-      }
-      closeModal("registerModal");
-      registerForm.reset();
-      showToast("Account created successfully! Welcome to FHub.", "success");
-    });
-  }
-
-  // --- Search ---
+  // Search & Sorting & Advanced Filters (Week 7)
   const searchInput = document.getElementById("searchInput");
   const searchBtn   = document.getElementById("searchBtn");
-  if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      searchQuery = e.target.value;
-      renderMarketplace();
-    });
-  }
-  if (searchBtn) {
-    searchBtn.addEventListener("click", () => {
-      searchQuery = document.getElementById("searchInput").value;
-      showView("freelancers");
-      renderFreelancerBrowse();
-    });
-  }
+  if (searchInput) searchInput.addEventListener("input", (e) => { searchQuery = e.target.value; renderMarketplace(); });
+  if (searchBtn) searchBtn.addEventListener("click", () => { searchQuery = document.getElementById("searchInput").value; showView("freelancers"); renderFreelancerBrowse(); });
 
-  // --- Home category filters ---
   document.querySelectorAll("#categoryFilters .filter-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll("#categoryFilters .filter-btn").forEach(b => b.classList.remove("active"));
@@ -593,23 +421,12 @@ function setupEventListeners() {
     });
   });
 
-  // --- Sort (home) ---
   const sortSelect = document.getElementById("sortSelect");
-  if (sortSelect) {
-    sortSelect.addEventListener("change", (e) => {
-      currentSort = e.target.value;
-      renderMarketplace();
-    });
-  }
+  if (sortSelect) sortSelect.addEventListener("change", (e) => { currentSort = e.target.value; renderMarketplace(); });
 
-  // --- Freelancer Browse Filters ---
+  // Advanced Filter Listeners for Freelancer Browse (Price, Rating, Delivery)
   const freelancerSearchInput = document.getElementById("freelancerSearchInput");
-  if (freelancerSearchInput) {
-    freelancerSearchInput.addEventListener("input", (e) => {
-      searchQuery = e.target.value;
-      renderFreelancerBrowse();
-    });
-  }
+  if (freelancerSearchInput) freelancerSearchInput.addEventListener("input", () => renderFreelancerBrowse());
 
   document.querySelectorAll("[data-fcat]").forEach(btn => {
     btn.addEventListener("click", () => {
@@ -621,54 +438,36 @@ function setupEventListeners() {
   });
 
   const freelancerSortSelect = document.getElementById("freelancerSortSelect");
-  if (freelancerSortSelect) {
-    freelancerSortSelect.addEventListener("change", (e) => {
-      currentSort = e.target.value;
-      renderFreelancerBrowse();
-    });
-  }
+  if (freelancerSortSelect) freelancerSortSelect.addEventListener("change", (e) => { currentSort = e.target.value; renderFreelancerBrowse(); });
 
-  // --- Jobs Filters ---
-  const jobSearchInput = document.getElementById("jobSearchInput");
-  if (jobSearchInput) {
-    jobSearchInput.addEventListener("input", (e) => {
-      searchQuery = e.target.value;
-      renderJobs();
-    });
-  }
-
-  document.querySelectorAll("[data-jobcat]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll("[data-jobcat]").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      currentCategory = btn.dataset.jobcat || "All";
-      renderJobs();
-    });
+  // Advanced inputs
+  ["fFilterMinPrice", "fFilterMaxPrice", "fFilterRating", "fFilterDelivery"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener("input", () => renderFreelancerBrowse());
   });
 
-  const jobSortSelect = document.getElementById("jobSortSelect");
-  if (jobSortSelect) {
-    jobSortSelect.addEventListener("change", (e) => {
-      currentSort = e.target.value;
-      renderJobs();
+  // Dual Dashboard Tab Switchers (Week 7)
+  const btnDashClient = document.getElementById("btnDashClient");
+  const btnDashFreelancer = document.getElementById("btnDashFreelancer");
+  if (btnDashClient && btnDashFreelancer) {
+    btnDashClient.addEventListener("click", () => {
+      btnDashClient.classList.add("active");
+      btnDashFreelancer.classList.remove("active");
+      activeDashboardTab = 'client';
+      renderDashboard();
+    });
+    btnDashFreelancer.addEventListener("click", () => {
+      btnDashFreelancer.classList.add("active");
+      btnDashClient.classList.remove("active");
+      activeDashboardTab = 'freelancer';
+      renderDashboard();
     });
   }
 
-  // --- Order Tabs ---
-  document.querySelectorAll(".order-tab-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      document.querySelectorAll(".order-tab-btn").forEach(b => b.classList.remove("active"));
-      e.currentTarget.classList.add("active");
-      currentOrderTab = e.currentTarget.dataset.tab;
-      renderOrders(currentOrderTab);
-    });
-  });
-
-  // --- Post a Job ---
-  const openPostJobBtn   = document.getElementById("openPostJobBtn");
-  const closePostJobBtn  = document.getElementById("closePostJobModal");
-  const postJobForm      = document.getElementById("postJobForm");
-
+  // Post Job, Proposal, Service, Review forms setup...
+  const openPostJobBtn  = document.getElementById("openPostJobBtn");
+  const closePostJobBtn = document.getElementById("closePostJobModal");
+  const postJobForm     = document.getElementById("postJobForm");
   if (openPostJobBtn)  openPostJobBtn.addEventListener("click",  () => openModal("postJobModal"));
   if (closePostJobBtn) closePostJobBtn.addEventListener("click", () => closeModal("postJobModal"));
 
@@ -681,7 +480,7 @@ function setupEventListeners() {
       const skillsRaw   = document.getElementById("jobSkillsInput").value.trim();
       const description = document.getElementById("jobDescInput").value.trim();
 
-      const newJob = {
+      jobs.unshift({
         id: Date.now(),
         clientName: userProfile.name,
         title, category, budget,
@@ -689,9 +488,8 @@ function setupEventListeners() {
         description,
         postedDate: "Just now",
         proposalsCount: 0
-      };
+      });
 
-      jobs.unshift(newJob);
       saveToStorage();
       postJobForm.reset();
       closeModal("postJobModal");
@@ -701,284 +499,7 @@ function setupEventListeners() {
     });
   }
 
-  // --- Proposal Form ---
-  const closeProposalBtn = document.getElementById("closeProposalModal");
-  const proposalForm     = document.getElementById("proposalForm");
-
-  if (closeProposalBtn) closeProposalBtn.addEventListener("click", () => closeModal("submitProposalModal"));
-
-  if (proposalForm) {
-    proposalForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const jobId      = document.getElementById("proposalJobId").value;
-      const bidAmount  = parseFloat(document.getElementById("proposalPrice").value);
-      const estTime    = parseInt(document.getElementById("proposalDuration").value);
-      const skills     = document.getElementById("proposalSkills").value.trim();
-      const experience = document.getElementById("proposalExperience").value.trim();
-      const pitch      = document.getElementById("proposalCoverLetter").value.trim();
-      const job        = jobs.find(j => j.id == jobId);
-
-      const newProposal = {
-        id: Date.now(),
-        jobId,
-        jobTitle:      job ? job.title : "Custom Project",
-        clientName:    job ? job.clientName : "Client",
-        freelancerName: userProfile.name,
-        bidAmount,
-        deliveryTime:  estTime,
-        skills,
-        experience,
-        coverLetter:   pitch,
-        status:        "Pending",
-        submittedDate: new Date().toLocaleDateString()
-      };
-
-      proposals.push(newProposal);
-
-      if (job) {
-        job.proposalsCount = (job.proposalsCount || 0) + 1;
-      }
-
-      saveToStorage();
-      proposalForm.reset();
-      closeModal("submitProposalModal");
-      renderJobs();
-      renderProposals();
-      showToast("Proposal submitted successfully!", "success");
-      createNotification('project', 'Proposal Submitted', `Your proposal for "${newProposal.jobTitle}" has been submitted.`);
-    });
-  }
-
-  // --- Service Modal ---
-  const dashboardCreateBtn = document.getElementById("dashboardCreateServiceBtn");
-  const closeServiceBtn    = document.getElementById("closeServiceModal");
-  const serviceForm        = document.getElementById("serviceForm");
-  const serviceImageInput  = document.getElementById("serviceImageInput");
-  const serviceImagePrev   = document.getElementById("serviceImagePreview");
-
-  if (dashboardCreateBtn) dashboardCreateBtn.addEventListener("click", () => openServiceModal());
-  if (closeServiceBtn)    closeServiceBtn.addEventListener("click",    () => closeModal("serviceModal"));
-
-  if (serviceImageInput && serviceImagePrev) {
-    serviceImageInput.addEventListener("change", () => {
-      const file = serviceImageInput.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          serviceImagePrev.src = ev.target.result;
-          serviceImagePrev.style.display = "block";
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  }
-
-  if (serviceForm) {
-    serviceForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const id          = document.getElementById("serviceId").value;
-      const title       = document.getElementById("serviceTitleInput").value.trim();
-      const category    = document.getElementById("serviceCategoryInput").value;
-      const price       = parseFloat(document.getElementById("servicePriceInput").value);
-      const delivery    = parseInt(document.getElementById("serviceDeliveryInput").value);
-      const skillsRaw   = document.getElementById("serviceSkillsInput").value.trim();
-      const description = document.getElementById("serviceDescInput").value.trim();
-      const imgFile     = document.getElementById("serviceImageInput").files[0];
-
-      const processService = (imgDataUrl) => {
-        if (id) {
-          const idx = services.findIndex(s => s.id == id);
-          if (idx !== -1) {
-            services[idx].serviceTitle  = title;
-            services[idx].category      = category;
-            services[idx].price         = price;
-            services[idx].deliveryTime  = delivery;
-            services[idx].skills        = skillsRaw ? skillsRaw.split(",").map(s => s.trim()) : [];
-            services[idx].description   = description;
-            if (imgDataUrl) services[idx].serviceImg = imgDataUrl;
-          }
-          showToast("Service updated successfully!", "success");
-        } else {
-          services.push({
-            id: Date.now(),
-            name:         userProfile.name,
-            serviceTitle: title,
-            category,
-            price,
-            deliveryTime: delivery,
-            skills:       skillsRaw ? skillsRaw.split(",").map(s => s.trim()) : [],
-            rating:       5.0,
-            reviews:      0,
-            img:          userProfile.img || "https://i.pravatar.cc/150?img=33",
-            serviceImg:   imgDataUrl || "",
-            description,
-            isUserCreated: true,
-            reviewsList: []
-          });
-          showToast("Service created successfully!", "success");
-        }
-
-        saveToStorage();
-        serviceForm.reset();
-        if (serviceImagePrev) { serviceImagePrev.src = ""; serviceImagePrev.style.display = "none"; }
-        closeModal("serviceModal");
-        renderMarketplace();
-        renderMyServices();
-        renderFreelancerBrowse();
-      };
-
-      if (imgFile) {
-        const reader = new FileReader();
-        reader.onload = (ev) => processService(ev.target.result);
-        reader.readAsDataURL(imgFile);
-      } else {
-        processService(null);
-      }
-    });
-  }
-
-  // --- Edit Profile ---
-  const editProfileBtn   = document.getElementById("editProfileBtn");
-  const closeProfileBtn  = document.getElementById("closeProfileModal");
-  const profileForm      = document.getElementById("profileForm");
-  const profileImgInput  = document.getElementById("inputProfileImg");
-  const profileImgPrev   = document.getElementById("profileImgPreview");
-
-  if (editProfileBtn)  editProfileBtn.addEventListener("click",  () => openModal("editProfileModal"));
-  if (closeProfileBtn) closeProfileBtn.addEventListener("click", () => closeModal("editProfileModal"));
-
-  if (profileImgInput && profileImgPrev) {
-    profileImgInput.addEventListener("change", () => {
-      const file = profileImgInput.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          profileImgPrev.src = ev.target.result;
-          profileImgPrev.style.display = "block";
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-  }
-
-  if (profileForm) {
-    profileForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      userProfile.name       = document.getElementById("inputName").value.trim();
-      userProfile.title      = document.getElementById("inputTitle").value.trim();
-      userProfile.bio        = document.getElementById("inputBio").value.trim();
-      userProfile.experience = document.getElementById("inputExperience").value.trim();
-
-      const imgFile = profileImgInput ? profileImgInput.files[0] : null;
-
-      const finish = () => {
-        saveToStorage();
-        updateProfileDOM();
-        closeModal("editProfileModal");
-        showToast("Profile updated successfully!", "success");
-      };
-
-      if (imgFile) {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          userProfile.img = ev.target.result;
-          finish();
-        };
-        reader.readAsDataURL(imgFile);
-      } else {
-        finish();
-      }
-    });
-  }
-
-  // --- Details Modal ---
-  const closeDetailsBtn = document.getElementById("closeDetailsModal");
-  if (closeDetailsBtn) closeDetailsBtn.addEventListener("click", () => closeModal("detailsModal"));
-
-  // --- Delivery Modal ---
-  const closeDeliveryBtn = document.getElementById("closeDeliveryModal");
-  const deliveryForm     = document.getElementById("deliveryForm");
-
-  if (closeDeliveryBtn) closeDeliveryBtn.addEventListener("click", () => closeModal("deliveryModal"));
-
-  if (deliveryForm) {
-    deliveryForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const orderId = document.getElementById("deliveryOrderId").value;
-      const link    = document.getElementById("deliveryWorkLink").value.trim();
-      const notes   = document.getElementById("deliveryNotes").value.trim();
-
-      const order = orders.find(o => o.id == orderId);
-      if (order) {
-        order.delivery = { link, notes, deliveredAt: new Date().toLocaleDateString() };
-        order.status   = "Submitted";
-        saveToStorage();
-        deliveryForm.reset();
-        closeModal("deliveryModal");
-        renderOrders();
-        if (currentActiveOrderId) renderProjectDetails(currentActiveOrderId);
-        showToast("Work submitted for client review!", "success");
-        createNotification('project', 'Work Submitted', `Your deliverable for "${order.title}" has been submitted.`);
-      }
-    });
-  }
-
-  // --- Review Modal ---
-  const closeReviewBtn = document.getElementById("closeReviewModal");
-  const reviewForm     = document.getElementById("reviewForm");
-
-  if (closeReviewBtn) closeReviewBtn.addEventListener("click", () => closeModal("reviewModal"));
-
-  if (reviewForm) {
-    reviewForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const orderId   = parseInt(document.getElementById("reviewOrderId").value);
-      const serviceId = parseInt(document.getElementById("reviewServiceId").value);
-      const rating    = parseInt(document.getElementById("reviewRating").value);
-      const comment   = document.getElementById("reviewComment").value.trim();
-
-      const order = orders.find(o => o.id === orderId);
-      if (order) {
-        order.review = { rating, comment };
-      }
-
-      const service = services.find(s => s.id === serviceId);
-      if (service) {
-        // Add review to reviewsList
-        if (!service.reviewsList) {
-          service.reviewsList = [];
-        }
-        
-        service.reviewsList.push({
-          id: Date.now(),
-          reviewer: userProfile.name,
-          rating: rating,
-          comment: comment,
-          date: new Date().toLocaleDateString()
-        });
-        
-        // Update average rating
-        const totalReviews = service.reviewsList.length;
-        const avgRating = service.reviewsList.reduce((sum, r) => sum + r.rating, 0) / totalReviews;
-        service.rating = parseFloat(avgRating.toFixed(1));
-        service.reviews = totalReviews;
-      }
-
-      saveToStorage();
-      reviewForm.reset();
-      closeModal("reviewModal");
-      renderOrders();
-      renderMarketplace();
-      if (currentActiveOrderId) renderProjectDetails(currentActiveOrderId);
-      showToast("Thank you! Your review has been submitted.", "success");
-      createNotification('review', 'Review Submitted', 'You left a review for a completed project.');
-    });
-  }
-
-  // --- Close modals on backdrop click ---
+  // Close modals on backdrop click
   document.querySelectorAll(".modal-overlay").forEach(overlay => {
     overlay.addEventListener("click", (e) => {
       if (e.target === overlay) overlay.style.display = "none";
@@ -987,11 +508,132 @@ function setupEventListeners() {
 }
 
 // ==========================================================================
-// 5. Messaging & Notifications Setup (Week 6)
+// 5. Favorites Management (Week 7)
+// ==========================================================================
+
+window.toggleFavorite = function(serviceId) {
+  const index = favorites.indexOf(serviceId);
+  if (index !== -1) {
+    favorites.splice(index, 1);
+    showToast("Removed from favorites", "info");
+  } else {
+    favorites.push(serviceId);
+    showToast("Added to favorites!", "success");
+  }
+  saveToStorage();
+  renderMarketplace();
+  renderFreelancerBrowse();
+  renderFavorites();
+};
+
+function renderFavorites() {
+  const grid = document.getElementById("favoritesGrid");
+  if (!grid) return;
+
+  const savedServices = services.filter(s => favorites.includes(s.id));
+  grid.innerHTML = "";
+
+  if (savedServices.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">🤍</div>
+        <h3>No Favorites Saved Yet</h3>
+        <p>Click the heart icon on any service or freelancer card to save them here for quick access.</p>
+      </div>
+    `;
+    return;
+  }
+
+  savedServices.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "freelancer-card";
+    const imgHtml = item.serviceImg ? `<img src="${item.serviceImg}" alt="Service" class="service-image">` : `<img src="${item.img}" alt="${item.name}">`;
+
+    card.innerHTML = `
+      <button class="favorite-btn saved" onclick="toggleFavorite(${item.id})" title="Remove from favorites">&#9829;</button>
+      <div>
+        ${imgHtml}
+        <span class="category-tag">${item.category}</span>
+        <h3>${item.name}</h3>
+        <p>${item.serviceTitle}</p>
+      </div>
+      <div>
+        <div class="card-meta">
+          <span>&#9733; ${item.rating} (${item.reviews || 0})</span>
+          <strong>From $${item.price}</strong>
+        </div>
+        <button class="login-btn" style="width:100%;margin-top:10px;" onclick="openDetailsModal(${item.id})">View Details</button>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ==========================================================================
+// 6. Dual Client & Freelancer Dashboards (Week 7)
+// ==========================================================================
+
+function renderDashboard() {
+  const container = document.getElementById("dashboardContentArea");
+  const statsContainer = document.getElementById("dashboardStatsArea");
+  if (!container || !statsContainer) return;
+
+  if (activeDashboardTab === 'client') {
+    // Client Dashboard Metrics & Activity
+    const postedJobsCount = jobs.filter(j => j.clientName === userProfile.name || j.clientName === "TechCorp Solutions").length;
+    const activeProjectsCount = orders.filter(o => o.status === "In Progress" || o.status === "Submitted").length;
+    const completedProjectsCount = orders.filter(o => o.status === "Completed").length;
+
+    statsContainer.innerHTML = `
+      <div class="stat-card"><span>Posted Jobs</span><h3>${postedJobsCount}</h3></div>
+      <div class="stat-card"><span>Active Projects</span><h3>${activeProjectsCount}</h3></div>
+      <div class="stat-card"><span>Completed Orders</span><h3>${completedProjectsCount}</h3></div>
+      <div class="stat-card"><span>Saved Favorites</span><h3>${favorites.length}</h3></div>
+    `;
+
+    container.innerHTML = `
+      <div style="margin-top:20px;">
+        <h3 style="margin-bottom:15px;color:#0f172a;">Client Activity Overview</h3>
+        <p style="color:#64748b;margin-bottom:20px;">Manage your posted job openings, view active contracts, and track contractor progress.</p>
+        <div style="display:flex;gap:15px;flex-wrap:wrap;">
+          <button class="register-btn" onclick="showView('jobs')">Browse / Post Jobs</button>
+          <button class="login-btn" onclick="showView('orders')">View Active Orders</button>
+          <button class="login-btn" onclick="showView('favorites')">View Favorites (${favorites.length})</button>
+        </div>
+      </div>
+    `;
+  } else {
+    // Freelancer Dashboard Metrics & Activity
+    const myServicesCount = services.filter(s => s.isUserCreated).length;
+    const totalEarnings = orders.filter(o => o.status === "Completed").reduce((sum, o) => sum + (o.price || 0), 0);
+    const activeOrdersCount = orders.filter(o => o.status === "In Progress").length;
+
+    statsContainer.innerHTML = `
+      <div class="stat-card"><span>My Services</span><h3>${myServicesCount}</h3></div>
+      <div class="stat-card"><span>Total Earnings</span><h3>$${totalEarnings}</h3></div>
+      <div class="stat-card"><span>Active Orders</span><h3>${activeOrdersCount}</h3></div>
+      <div class="stat-card"><span>Profile Rating</span><h3>★ ${userProfile.rating}</h3></div>
+    `;
+
+    container.innerHTML = `
+      <div style="margin-top:20px;">
+        <h3 style="margin-bottom:15px;color:#0f172a;">Freelancer Performance Overview</h3>
+        <p style="color:#64748b;margin-bottom:20px;">Manage your active service listings, track submitted proposals, and update project milestones.</p>
+        <div style="display:flex;gap:15px;flex-wrap:wrap;">
+          <button class="register-btn" onclick="showView('myServices')">Manage My Services</button>
+          <button class="login-btn" onclick="showView('proposals')">My Proposals</button>
+          <button class="login-btn" onclick="showView('orders')">Client Orders</button>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// ==========================================================================
+// 7. Messaging & Notifications Setup (Week 6)
 // ==========================================================================
 
 function setupMessagingListeners() {
-  // Messages modal
   const navMessages = document.getElementById('navMessages');
   const closeMessagesBtn = document.getElementById('closeMessagesModal');
   const sendMessageBtn = document.getElementById('sendMessage');
@@ -1006,35 +648,12 @@ function setupMessagingListeners() {
     });
   }
   
-  if (closeMessagesBtn) {
-    closeMessagesBtn.addEventListener('click', () => closeModal('messagesModal'));
-  }
-  
-  if (sendMessageBtn) {
-    sendMessageBtn.addEventListener('click', sendMessage);
-  }
-  
+  if (closeMessagesBtn) closeMessagesBtn.addEventListener('click', () => closeModal('messagesModal'));
+  if (sendMessageBtn) sendMessageBtn.addEventListener('click', sendMessage);
   if (messageInput) {
-    messageInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') {
-        sendMessage();
-      }
-    });
+    messageInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
   }
-  
-  // Search conversations
-  const searchConversations = document.getElementById('searchConversations');
-  if (searchConversations) {
-    searchConversations.addEventListener('input', (e) => {
-      const searchTerm = e.target.value.toLowerCase();
-      document.querySelectorAll('.conversation-item').forEach(item => {
-        const name = item.querySelector('.conversation-name').textContent.toLowerCase();
-        item.style.display = name.includes(searchTerm) ? 'flex' : 'none';
-      });
-    });
-  }
-  
-  // Notifications modal
+
   const navNotifications = document.getElementById('navNotifications');
   const closeNotificationsBtn = document.getElementById('closeNotificationsModal');
   const markAllReadBtn = document.getElementById('markAllRead');
@@ -1046,11 +665,7 @@ function setupMessagingListeners() {
       loadNotifications();
     });
   }
-  
-  if (closeNotificationsBtn) {
-    closeNotificationsBtn.addEventListener('click', () => closeModal('notificationsModal'));
-  }
-  
+  if (closeNotificationsBtn) closeNotificationsBtn.addEventListener('click', () => closeModal('notificationsModal'));
   if (markAllReadBtn) {
     markAllReadBtn.addEventListener('click', () => {
       notifications.forEach(n => n.read = true);
@@ -1058,8 +673,7 @@ function setupMessagingListeners() {
       loadNotifications(currentNotificationFilter);
     });
   }
-  
-  // Notification filters
+
   document.querySelectorAll('.notifications-filters .filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
       document.querySelectorAll('.notifications-filters .filter-btn').forEach(b => b.classList.remove('active'));
@@ -1070,18 +684,20 @@ function setupMessagingListeners() {
   });
 }
 
-// Load conversations
 function loadConversations() {
   const conversationsList = document.getElementById('conversationsList');
   if (!conversationsList) return;
   
   conversationsList.innerHTML = '';
-  
+  if (conversations.length === 0) {
+    conversationsList.innerHTML = `<div class="empty-state" style="padding:20px;">No messages yet</div>`;
+    return;
+  }
+
   conversations.forEach(conversation => {
     const div = document.createElement('div');
     div.className = `conversation-item ${conversation.unread > 0 ? 'unread' : ''}`;
     div.dataset.id = conversation.id;
-    
     div.innerHTML = `
       <img src="${conversation.avatar}" alt="${conversation.name}" class="conversation-avatar">
       <div class="conversation-info">
@@ -1093,80 +709,65 @@ function loadConversations() {
       </div>
       ${conversation.unread > 0 ? `<span class="unread-badge">${conversation.unread}</span>` : ''}
     `;
-    
     div.addEventListener('click', () => openConversation(conversation.id));
     conversationsList.appendChild(div);
   });
 }
 
-// Open conversation
 function openConversation(conversationId) {
   currentConversation = conversationId;
   const conversation = conversations.find(c => c.id === conversationId);
   if (!conversation) return;
   
-  // Update active state
-  document.querySelectorAll('.conversation-item').forEach(item => {
-    item.classList.remove('active');
-  });
+  document.querySelectorAll('.conversation-item').forEach(item => item.classList.remove('active'));
   const activeItem = document.querySelector(`[data-id="${conversationId}"]`);
   if (activeItem) activeItem.classList.add('active');
   
-  // Update chat header
   const chatHeader = document.getElementById('chatHeader');
   chatHeader.innerHTML = `
     <div class="chat-user-info">
       <img src="${conversation.avatar}" alt="${conversation.name}">
       <div class="user-details">
         <h3>${conversation.name}</h3>
-        <span class="user-status ${conversation.online ? 'online' : ''}">
-          ${conversation.online ? 'Online' : 'Offline'}
-        </span>
+        <span class="user-status ${conversation.online ? 'online' : ''}">${conversation.online ? 'Online' : 'Offline'}</span>
       </div>
     </div>
   `;
   
-  // Load messages
   loadMessages(conversationId);
-  
-  // Show input
   document.getElementById('chatInputContainer').style.display = 'block';
-  
-  // Mark as read
   conversation.unread = 0;
   saveMessagingData();
   loadConversations();
 }
 
-// Load messages
 function loadMessages(conversationId) {
   const chatMessages = document.getElementById('chatMessages');
   const messages = messagesData[conversationId] || [];
-  
   chatMessages.innerHTML = '';
   
+  if (messages.length === 0) {
+    chatMessages.innerHTML = `<div class="no-conversation">No messages in this chat yet. Start the conversation!</div>`;
+    return;
+  }
+
   messages.forEach(message => {
     const div = document.createElement('div');
     div.className = `message ${message.sent ? 'sent' : 'received'}`;
-    
     div.innerHTML = `
       <div class="message-bubble">
         <p class="message-text">${message.text}</p>
         <span class="message-time">${message.time}</span>
       </div>
     `;
-    
     chatMessages.appendChild(div);
   });
-  
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Send message
 function sendMessage() {
   const messageInput = document.getElementById('messageInput');
   const messageText = messageInput.value.trim();
-  
   if (messageText && currentConversation) {
     const newMessage = {
       id: Date.now(),
@@ -1174,13 +775,9 @@ function sendMessage() {
       sent: true,
       time: new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
     };
-    
-    if (!messagesData[currentConversation]) {
-      messagesData[currentConversation] = [];
-    }
+    if (!messagesData[currentConversation]) messagesData[currentConversation] = [];
     messagesData[currentConversation].push(newMessage);
     
-    // Update conversation
     const conversation = conversations.find(c => c.id === currentConversation);
     if (conversation) {
       conversation.lastMessage = messageText;
@@ -1190,31 +787,22 @@ function sendMessage() {
     saveMessagingData();
     loadMessages(currentConversation);
     loadConversations();
-    
     messageInput.value = '';
   }
 }
 
-// Load notifications
 function loadNotifications(filter = 'all') {
   const notificationsList = document.getElementById('notificationsList');
   if (!notificationsList) return;
   
-  let filteredNotifications = notifications;
-  
-  if (filter === 'unread') {
-    filteredNotifications = notifications.filter(n => !n.read);
-  } else if (filter === 'messages') {
-    filteredNotifications = notifications.filter(n => n.type === 'message');
-  } else if (filter === 'projects') {
-    filteredNotifications = notifications.filter(n => n.type === 'project' || n.type === 'completed');
-  } else if (filter === 'reviews') {
-    filteredNotifications = notifications.filter(n => n.type === 'review');
-  }
+  let filtered = notifications;
+  if (filter === 'unread') filtered = notifications.filter(n => !n.read);
+  else if (filter === 'messages') filtered = notifications.filter(n => n.type === 'message');
+  else if (filter === 'projects') filtered = notifications.filter(n => n.type === 'project' || n.type === 'completed');
+  else if (filter === 'reviews') filtered = notifications.filter(n => n.type === 'review');
   
   notificationsList.innerHTML = '';
-  
-  if (filteredNotifications.length === 0) {
+  if (filtered.length === 0) {
     notificationsList.innerHTML = `
       <div class="no-notifications">
         <div class="no-notifications-icon">🔔</div>
@@ -1224,33 +812,28 @@ function loadNotifications(filter = 'all') {
     return;
   }
   
-  filteredNotifications.forEach(notification => {
+  filtered.forEach(notification => {
     const div = document.createElement('div');
     div.className = `notification-item ${!notification.read ? 'unread' : ''}`;
-    
     div.innerHTML = `
-      <div class="notification-icon ${notification.type}">
-        ${notification.icon}
-      </div>
+      <div class="notification-icon ${notification.type}">${notification.icon}</div>
       <div class="notification-content">
         <div class="notification-title">${notification.title}</div>
         <div class="notification-message">${notification.message}</div>
         <div class="notification-time">${notification.time}</div>
       </div>
     `;
-    
     div.addEventListener('click', () => {
       notification.read = true;
       saveMessagingData();
       loadNotifications(currentNotificationFilter);
     });
-    
     notificationsList.appendChild(div);
   });
 }
 
 // ==========================================================================
-// 6. Render: Home Marketplace
+// 8. Render: Marketplace & Advanced Filtering (Week 7)
 // ==========================================================================
 
 function renderMarketplace() {
@@ -1269,23 +852,28 @@ function renderMarketplace() {
   if (currentSort === "rating")     filtered.sort((a, b) => b.rating - a.rating);
 
   grid.innerHTML = "";
-
   if (filtered.length === 0) {
-    grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#64748b;padding:40px;">No services found matching your criteria.</p>`;
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">🔍</div>
+        <h3>No Services Found</h3>
+        <p>No services match your search criteria. Try adjusting your search keywords or category filters.</p>
+      </div>
+    `;
     return;
   }
 
   filtered.forEach(item => {
     const card = document.createElement("div");
     card.className = "freelancer-card";
-
-    const imgHtml = item.serviceImg
-      ? `<img src="${item.serviceImg}" alt="Service" class="service-image">`
-      : `<img src="${item.img}" alt="${item.name}">`;
-
+    const isSaved = favorites.includes(item.id);
+    const imgHtml = item.serviceImg ? `<img src="${item.serviceImg}" alt="Service" class="service-image">` : `<img src="${item.img}" alt="${item.name}">`;
     const tagsHtml = (item.skills || []).slice(0, 3).map(s => `<span class="service-tag">${s}</span>`).join("");
 
     card.innerHTML = `
+      <button class="favorite-btn ${isSaved ? 'saved' : ''}" onclick="toggleFavorite(${item.id})" title="${isSaved ? 'Remove from favorites' : 'Save to favorites'}">
+        ${isSaved ? '&#9829;' : '&#9825;'}
+      </button>
       <div>
         ${imgHtml}
         <span class="category-tag">${item.category}</span>
@@ -1305,21 +893,27 @@ function renderMarketplace() {
   });
 }
 
-// ==========================================================================
-// 7. Render: Find Freelancers Browse View
-// ==========================================================================
-
 function renderFreelancerBrowse() {
   const grid = document.getElementById("freelancerBrowseGrid");
   if (!grid) return;
 
   const localSearch = (document.getElementById("freelancerSearchInput") || {}).value || searchQuery;
+  const minPrice = parseFloat((document.getElementById("fFilterMinPrice") || {}).value) || 0;
+  const maxPrice = parseFloat((document.getElementById("fFilterMaxPrice") || {}).value) || Infinity;
+  const minRating = parseFloat((document.getElementById("fFilterRating") || {}).value) || 0;
+  const maxDelivery = parseInt((document.getElementById("fFilterDelivery") || {}).value) || Infinity;
 
   let filtered = services.filter(item => {
-    const matchesCat    = currentCategory === "All" || item.category === currentCategory;
+    const matchesCat = currentCategory === "All" || item.category === currentCategory;
     const matchesSearch = item.name.toLowerCase().includes(localSearch.toLowerCase()) ||
-                          item.serviceTitle.toLowerCase().includes(localSearch.toLowerCase());
-    return matchesCat && matchesSearch;
+                          item.serviceTitle.toLowerCase().includes(localSearch.toLowerCase()) ||
+                          (item.skills || []).some(s => s.toLowerCase().includes(localSearch.toLowerCase()));
+    
+    const matchesPrice = item.price >= minPrice && item.price <= maxPrice;
+    const matchesRating = item.rating >= minRating;
+    const matchesDelivery = (item.deliveryTime || 7) <= maxDelivery;
+
+    return matchesCat && matchesSearch && matchesPrice && matchesRating && matchesDelivery;
   });
 
   if (currentSort === "price-low")  filtered.sort((a, b) => a.price - b.price);
@@ -1327,26 +921,34 @@ function renderFreelancerBrowse() {
   if (currentSort === "rating")     filtered.sort((a, b) => b.rating - a.rating);
 
   grid.innerHTML = "";
-
   if (filtered.length === 0) {
-    grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#64748b;padding:40px;">No freelancers found.</p>`;
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">🔍</div>
+        <h3>No Freelancers Found</h3>
+        <p>No freelancers or services match your advanced filters (price range, rating, or delivery time).</p>
+      </div>
+    `;
     return;
   }
 
   filtered.forEach(item => {
     const card = document.createElement("div");
     card.className = "freelancer-card";
-
+    const isSaved = favorites.includes(item.id);
     const tagsHtml = (item.skills || []).slice(0, 3).map(s => `<span class="service-tag">${s}</span>`).join("");
 
     card.innerHTML = `
+      <button class="favorite-btn ${isSaved ? 'saved' : ''}" onclick="toggleFavorite(${item.id})">
+        ${isSaved ? '&#9829;' : '&#9825;'}
+      </button>
       <div>
         <img src="${item.img}" alt="${item.name}">
         <span class="category-tag">${item.category}</span>
         <h3>${item.name}</h3>
         <p>${item.serviceTitle}</p>
         <div class="service-tags">${tagsHtml}</div>
-        ${item.deliveryTime ? `<p style="font-size:0.82rem;color:#64748b;margin-top:6px;">Delivery: ${item.deliveryTime} days</p>` : ""}
+        <p style="font-size:0.82rem;color:#64748b;margin-top:6px;">Delivery: ${item.deliveryTime || 7} days</p>
       </div>
       <div>
         <div class="card-meta">
@@ -1361,7 +963,7 @@ function renderFreelancerBrowse() {
 }
 
 // ==========================================================================
-// 8. Service Details Modal with Reviews (Week 6)
+// 9. Service Details Modal with Reviews
 // ==========================================================================
 
 window.openDetailsModal = function(id) {
@@ -1375,7 +977,6 @@ window.openDetailsModal = function(id) {
       ? `<img src="${item.serviceImg}" alt="Service" style="width:100%;border-radius:10px;margin-bottom:15px;max-height:200px;object-fit:cover;">`
       : `<img src="${item.img}" alt="${item.name}" style="width:80px;height:80px;border-radius:50%;margin-bottom:12px;display:block;">`;
 
-    // Reviews section
     let reviewsHtml = '';
     if (item.reviewsList && item.reviewsList.length > 0) {
       reviewsHtml = `
@@ -1413,7 +1014,7 @@ window.openDetailsModal = function(id) {
 };
 
 // ==========================================================================
-// 9. Render: Jobs
+// 10. Render: Jobs & Proposals
 // ==========================================================================
 
 function renderJobs() {
@@ -1422,10 +1023,9 @@ function renderJobs() {
 
   const localSearch = (document.getElementById("jobSearchInput") || {}).value || searchQuery;
   const localSort   = (document.getElementById("jobSortSelect") || {}).value || currentSort;
-  const localCat    = currentCategory;
 
   let filtered = jobs.filter(item => {
-    const matchesCat    = localCat === "All" || item.category === localCat;
+    const matchesCat    = currentCategory === "All" || item.category === currentCategory;
     const matchesSearch = item.title.toLowerCase().includes(localSearch.toLowerCase()) ||
                           item.description.toLowerCase().includes(localSearch.toLowerCase());
     return matchesCat && matchesSearch;
@@ -1435,16 +1035,20 @@ function renderJobs() {
   if (localSort === "budget-low")  filtered.sort((a, b) => a.budget - b.budget);
 
   grid.innerHTML = "";
-
   if (filtered.length === 0) {
-    grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#64748b;padding:40px;">No job postings found matching your criteria.</p>`;
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📋</div>
+        <h3>No Jobs Found</h3>
+        <p>No job postings match your search criteria right now.</p>
+      </div>
+    `;
     return;
   }
 
   filtered.forEach(job => {
     const card = document.createElement("div");
     card.className = "job-card";
-
     const skillsHtml = (job.skills || []).map(s => `<span class="skill-tag">${s}</span>`).join("");
 
     card.innerHTML = `
@@ -1484,33 +1088,28 @@ window.openJobDetailsModal = function(jobId) {
       </div>
     `;
   }
-
   document.getElementById("proposalJobId").value = job.id;
   openModal("submitProposalModal");
 };
-
-// ==========================================================================
-// 10. Render: My Proposals
-// ==========================================================================
 
 function renderProposals() {
   const grid = document.getElementById("proposalsGrid");
   if (!grid) return;
 
   grid.innerHTML = "";
-
   if (proposals.length === 0) {
-    grid.innerHTML = `<p style="text-align:center;color:#64748b;padding:40px;">You haven't submitted any proposals yet. <a href="#" onclick="showView('jobs')" style="color:#0f172a;font-weight:bold;">Browse Jobs</a></p>`;
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📤</div>
+        <h3>No Proposals Submitted</h3>
+        <p>You haven't submitted any proposals yet. Browse jobs and apply to start working.</p>
+      </div>
+    `;
     return;
   }
 
   proposals.forEach((prop, index) => {
-    const statusClass = {
-      "accepted": "status-accepted",
-      "rejected": "status-rejected",
-      "pending":  "status-pending"
-    }[prop.status.toLowerCase()] || "status-pending";
-
+    const statusClass = prop.status.toLowerCase() === "accepted" ? "status-accepted" : "status-pending";
     const card = document.createElement("div");
     card.className = "proposal-card";
     card.innerHTML = `
@@ -1521,12 +1120,11 @@ function renderProposals() {
           <span><strong>Timeline:</strong> ${prop.deliveryTime} Days</span>
           <span><strong>Submitted:</strong> ${prop.submittedDate}</span>
         </div>
-        ${prop.skills ? `<p style="margin-top:6px;font-size:0.85rem;color:#64748b;"><strong>Skills:</strong> ${prop.skills}</p>` : ""}
         <p style="color:#64748b;font-size:0.88rem;margin-top:8px;font-style:italic;">"${prop.coverLetter}"</p>
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
         <span class="status-badge ${statusClass}">${prop.status}</span>
-        ${prop.status === "Pending" ? `<button class="btn-success" onclick="acceptProposalToOrder(${index})">Accept &amp; Start Contract</button>` : ""}
+        ${prop.status === "Pending" ? `<button class="btn-success" onclick="acceptProposalToOrder(${index})">Accept &amp; Start</button>` : ""}
       </div>
     `;
     grid.appendChild(card);
@@ -1536,13 +1134,12 @@ function renderProposals() {
 window.acceptProposalToOrder = function(propIndex) {
   const prop = proposals[propIndex];
   if (!prop) return;
-
   prop.status = "Accepted";
 
   const newOrder = {
     id: Math.floor(1000 + Math.random() * 9000),
     title:        prop.jobTitle,
-    providerName: prop.freelancerName || userProfile.name,
+    providerName: userProfile.name,
     clientName:   prop.clientName || "Client",
     serviceId:    1,
     price:        prop.bidAmount,
@@ -1550,9 +1147,8 @@ window.acceptProposalToOrder = function(propIndex) {
     createdDate:  new Date().toISOString().split("T")[0],
     status:       "In Progress",
     milestones: [
-      { id: "m" + Date.now() + "1", title: "Project Initiation & Architecture Setup", completed: true },
-      { id: "m" + Date.now() + "2", title: "Core Feature Development",                completed: false },
-      { id: "m" + Date.now() + "3", title: "Testing, QA Review & Handoff",            completed: false }
+      { id: "m1", title: "Project Initiation & Architecture Setup", completed: true },
+      { id: "m2", title: "Core Feature Implementation", completed: false }
     ],
     delivery: { link: "", notes: "", deliveredAt: null },
     review: null
@@ -1562,8 +1158,8 @@ window.acceptProposalToOrder = function(propIndex) {
   saveToStorage();
   renderProposals();
   renderOrders();
-  showToast(`Contract #${newOrder.id} created and is now active!`, "success");
-  createNotification('project', 'Contract Started', `Your contract for "${newOrder.title}" is now active.`);
+  showToast("Contract created and is now active!", "success");
+  createNotification('project', 'Contract Started', `Your contract for "${newOrder.title}" is active.`);
   showView("orders");
 };
 
@@ -1579,27 +1175,27 @@ function renderMyServices() {
   grid.innerHTML = "";
 
   if (myServices.length === 0) {
-    grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#64748b;padding:40px;">You haven't created any services yet.</p>`;
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">🛠️</div>
+        <h3>No Services Created</h3>
+        <p>You haven't listed any services yet. Click "+ Add New Service" to offer your skills.</p>
+      </div>
+    `;
     return;
   }
 
   myServices.forEach(item => {
     const card = document.createElement("div");
     card.className = "freelancer-card";
-
     const tagsHtml = (item.skills || []).map(s => `<span class="service-tag">${s}</span>`).join("");
-    const imgHtml  = item.serviceImg
-      ? `<img src="${item.serviceImg}" alt="Service" class="service-image">`
-      : "";
 
     card.innerHTML = `
       <div>
-        ${imgHtml}
         <span class="category-tag">${item.category}</span>
         <h3>${item.serviceTitle}</h3>
         <p style="color:#64748b;font-size:13px;margin-top:5px;">${item.description}</p>
         <div class="service-tags" style="margin-top:8px;">${tagsHtml}</div>
-        ${item.deliveryTime ? `<p style="font-size:0.82rem;color:#64748b;margin-top:6px;">Delivery: ${item.deliveryTime} days</p>` : ""}
       </div>
       <div>
         <div class="card-meta">
@@ -1619,10 +1215,7 @@ function renderMyServices() {
 function openServiceModal(serviceObj = null) {
   const serviceForm = document.getElementById("serviceForm");
   if (!serviceForm) return;
-
   serviceForm.reset();
-  const prevImg = document.getElementById("serviceImagePreview");
-  if (prevImg) { prevImg.src = ""; prevImg.style.display = "none"; }
 
   if (serviceObj) {
     document.getElementById("serviceModalTitle").innerText = "Edit Service";
@@ -1633,36 +1226,26 @@ function openServiceModal(serviceObj = null) {
     document.getElementById("serviceDeliveryInput").value  = serviceObj.deliveryTime || "";
     document.getElementById("serviceSkillsInput").value    = (serviceObj.skills || []).join(", ");
     document.getElementById("serviceDescInput").value      = serviceObj.description;
-    if (prevImg && serviceObj.serviceImg) {
-      prevImg.src = serviceObj.serviceImg;
-      prevImg.style.display = "block";
-    }
   } else {
     document.getElementById("serviceModalTitle").innerText = "Create New Service";
     document.getElementById("serviceId").value             = "";
   }
-
   openModal("serviceModal");
 }
 
-window.editService = function(id) {
-  const item = services.find(s => s.id == id);
-  if (item) openServiceModal(item);
-};
-
-window.deleteService = function(id) {
-  if (confirm("Are you sure you want to delete this service?")) {
+window.editService = (id) => openServiceModal(services.find(s => s.id == id));
+window.deleteService = (id) => {
+  if (confirm("Delete this service?")) {
     services = services.filter(s => s.id != id);
     saveToStorage();
     renderMarketplace();
     renderMyServices();
-    renderFreelancerBrowse();
     showToast("Service deleted.", "info");
   }
 };
 
 // ==========================================================================
-// 12. Render: Orders & Contracts
+// 12. Render: Orders & Contracts Management
 // ==========================================================================
 
 function getStatusClass(status) {
@@ -1670,7 +1253,6 @@ function getStatusClass(status) {
   if (s === "in progress") return "status-inprogress";
   if (s === "submitted")   return "status-submitted";
   if (s === "completed")   return "status-completed";
-  if (s === "cancelled")   return "status-cancelled";
   return "status-pending";
 }
 
@@ -1679,41 +1261,29 @@ function calcProgress(milestones) {
   return Math.round((milestones.filter(m => m.completed).length / milestones.length) * 100);
 }
 
-function updateOrderCountBadges() {
-  const active    = orders.filter(o => ["In Progress", "Submitted", "Pending"].includes(o.status)).length;
-  const completed = orders.filter(o => o.status === "Completed").length;
-  const inProg    = orders.filter(o => o.status === "In Progress").length;
-  const submitted = orders.filter(o => o.status === "Submitted").length;
-
-  const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
-  set("activeCount",        active);
-  set("completedCount",     completed);
-  set("tabCountAll",        orders.length);
-  set("tabCountInProgress", inProg);
-  set("tabCountSubmitted",  submitted);
-  set("tabCountCompleted",  completed);
-}
-
 function renderOrders(filter = currentOrderTab) {
   const grid = document.getElementById("ordersGrid");
   if (!grid) return;
 
-  updateOrderCountBadges();
-
   let filtered = orders;
-  if (filter === "in-progress") filtered = orders.filter(o => o.status === "In Progress" || o.status === "Pending");
+  if (filter === "in-progress") filtered = orders.filter(o => o.status === "In Progress");
   if (filter === "submitted")   filtered = orders.filter(o => o.status === "Submitted");
   if (filter === "completed")   filtered = orders.filter(o => o.status === "Completed");
 
   grid.innerHTML = "";
-
   if (filtered.length === 0) {
-    grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#64748b;padding:40px;">No contracts found in this view.</p>`;
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-state-icon">📦</div>
+        <h3>No Orders Found</h3>
+        <p>You have no active projects or contracts in this category.</p>
+      </div>
+    `;
     return;
   }
 
   filtered.forEach(order => {
-    const card     = document.createElement("div");
+    const card = document.createElement("div");
     card.className = "job-card";
     const progress = calcProgress(order.milestones);
 
@@ -1725,20 +1295,13 @@ function renderOrders(filter = currentOrderTab) {
         </div>
         <h3 class="job-title">${order.title}</h3>
         <div class="order-meta-list">
-          <div>Client: <strong>${order.clientName || "Client"}</strong></div>
-          <div>Freelancer: <strong>${order.providerName || "Freelancer"}</strong></div>
+          <div>Client: <strong>${order.clientName}</strong></div>
           <div>Deadline: <strong>${order.deadline || "Flexible"}</strong></div>
         </div>
         <div class="progress-container">
-          <div class="progress-header">
-            <span>Milestone Progress</span>
-            <span>${progress}%</span>
-          </div>
-          <div class="progress-bar-bg">
-            <div class="progress-bar-fill" style="width:${progress}%;"></div>
-          </div>
+          <div class="progress-header"><span>Milestone Progress</span><span>${progress}%</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${progress}%;"></div></div>
         </div>
-        ${order.review ? `<p style="margin-top:8px;font-size:0.83rem;font-style:italic;color:#475569;">"&#9733; ${order.review.rating}/5: ${order.review.comment}"</p>` : ""}
       </div>
       <div class="job-footer" style="margin-top:15px;">
         <span>Order #${order.id}</span>
@@ -1749,254 +1312,63 @@ function renderOrders(filter = currentOrderTab) {
   });
 }
 
-// ==========================================================================
-// 13. Project Details & Milestone Management
-// ==========================================================================
-
-window.openProjectManagementDetails = function(orderId) {
-  renderProjectDetails(orderId);
-};
+window.openProjectManagementDetails = (orderId) => renderProjectDetails(orderId);
 
 function renderProjectDetails(orderId) {
   currentActiveOrderId = orderId;
-  const order     = orders.find(o => o.id == orderId);
+  const order = orders.find(o => o.id == orderId);
   const container = document.getElementById("projectDetailsContainer");
   if (!order || !container) return;
 
   showView("projectDetails");
-
   const progress = calcProgress(order.milestones);
 
   const milestoneHtml = (order.milestones || []).map((m, idx) => `
     <div class="milestone-item ${m.completed ? "done" : ""}">
       <div class="milestone-left">
-        <input type="checkbox"
-               onchange="toggleMilestone(${order.id}, ${idx}, this.checked)"
-               ${m.completed ? "checked" : ""}
-               ${order.status === "Completed" ? "disabled" : ""}>
+        <input type="checkbox" onchange="toggleMilestone(${order.id}, ${idx}, this.checked)" ${m.completed ? "checked" : ""}>
         <span class="milestone-text">${m.title}</span>
       </div>
-      <span style="font-size:0.75rem;font-weight:bold;color:${m.completed ? "#15803d" : "#94a3b8"};">
-        ${m.completed ? "Done" : "Pending"}
-      </span>
+      <span>${m.completed ? "Done" : "Pending"}</span>
     </div>
   `).join("");
 
-  // Delivery section based on status
-  let deliveryHtml = "";
-
-  if (order.status === "In Progress" || order.status === "Pending") {
-    deliveryHtml = `
-      <div class="delivery-box">
-        <h4>Submit Completed Work</h4>
-        <p style="font-size:0.85rem;color:#64748b;margin:6px 0 14px;">
-          Once all milestones are done, deliver your work link and notes for client review.
-        </p>
-        <button class="register-btn" onclick="openDeliveryModalFor(${order.id})">Deliver Work</button>
-      </div>
-    `;
-  } else if (order.status === "Submitted") {
-    deliveryHtml = `
-      <div class="delivery-box approved">
-        <h4 style="color:#15803d;">Work Delivered — Awaiting Approval</h4>
-        <div class="submission-content">
-          <p><strong>Link:</strong> <a href="${order.delivery?.link}" target="_blank" style="color:#1d4ed8;">${order.delivery?.link}</a></p>
-          <p style="margin-top:4px;"><strong>Notes:</strong> ${order.delivery?.notes}</p>
-        </div>
-        <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
-          <button class="btn-success" onclick="approveWork(${order.id})">Accept &amp; Complete</button>
-          <button class="btn-danger"  onclick="requestRevision(${order.id})">Request Revision</button>
-        </div>
-      </div>
-    `;
-  } else if (order.status === "Completed") {
-    deliveryHtml = `
-      <div class="delivery-box approved">
-        <h4 style="color:#15803d;">Project Completed</h4>
-        <div class="submission-content">
-          <p><strong>Approved Link:</strong> <a href="${order.delivery?.link}" target="_blank" style="color:#1d4ed8;">${order.delivery?.link}</a></p>
-          <p style="margin-top:4px;"><strong>Note:</strong> ${order.delivery?.notes}</p>
-        </div>
-        ${!order.review
-          ? `<button class="login-btn" style="margin-top:10px;" onclick="openReviewModalFor(${order.id}, ${order.serviceId})">Leave Feedback</button>`
-          : `<p style="margin-top:10px;font-size:0.88rem;color:#15803d;font-weight:bold;">&#9733; ${order.review.rating}/5 — "${order.review.comment}"</p>`
-        }
-      </div>
-    `;
-  } else if (order.status === "Cancelled") {
-    deliveryHtml = `
-      <div class="delivery-box">
-        <h4 style="color:#b91c1c;">Contract Cancelled</h4>
-        <p style="font-size:0.85rem;color:#64748b;margin-top:6px;">This project contract has been cancelled.</p>
-      </div>
-    `;
-  }
-
   container.innerHTML = `
     <div class="project-details-grid">
-
-      <div>
-        <div class="details-card">
-          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;">
-            <div>
-              <p style="font-size:0.78rem;text-transform:uppercase;color:#64748b;font-weight:bold;">Contract #${order.id}</p>
-              <h2 style="font-size:1.35rem;color:#0f172a;margin-top:4px;">${order.title}</h2>
-            </div>
-            <span class="status-badge ${getStatusClass(order.status)}">${order.status}</span>
-          </div>
-
-          <div class="progress-container" style="margin:20px 0;">
-            <div class="progress-header">
-              <span>Overall Progress</span>
-              <span>${progress}%</span>
-            </div>
-            <div class="progress-bar-bg" style="height:10px;">
-              <div class="progress-bar-fill" style="width:${progress}%;"></div>
-            </div>
-          </div>
-
-          <h3 style="margin-bottom:12px;">Project Milestones</h3>
-          <div id="milestoneListContainer">${milestoneHtml}</div>
-
-          ${order.status !== "Completed" && order.status !== "Cancelled" ? `
-            <div style="display:flex;gap:8px;margin-top:14px;">
-              <input type="text" id="customMilestoneInput"
-                     placeholder="Add a new milestone or task..."
-                     style="flex:1;padding:9px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:14px;">
-              <button class="login-btn" onclick="addMilestone(${order.id})">+ Add</button>
-            </div>
-          ` : ""}
-
-          <div style="margin-top:20px;">${deliveryHtml}</div>
+      <div class="details-card">
+        <h2>${order.title}</h2>
+        <p style="color:#64748b;margin:5px 0 15px;">Contract #${order.id} &bull; Status: <strong>${order.status}</strong></p>
+        <div class="progress-container" style="margin:20px 0;">
+          <div class="progress-header"><span>Overall Progress</span><span>${progress}%</span></div>
+          <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${progress}%;"></div></div>
         </div>
+        <h3>Milestones</h3>
+        <div style="margin-top:10px;">${milestoneHtml}</div>
       </div>
-
-      <div>
-        <div class="details-card">
-          <h3>Contract Overview</h3>
-          <div class="order-meta-list" style="gap:14px;margin-top:10px;">
-            <div>
-              <span style="font-size:0.72rem;text-transform:uppercase;color:#94a3b8;font-weight:bold;display:block;">Client</span>
-              <strong style="font-size:1rem;color:#0f172a;">${order.clientName}</strong>
-            </div>
-            <div>
-              <span style="font-size:0.72rem;text-transform:uppercase;color:#94a3b8;font-weight:bold;display:block;">Freelancer</span>
-              <strong style="font-size:1rem;color:#0f172a;">${order.providerName}</strong>
-            </div>
-            <div style="border-top:1px solid #f1f5f9;padding-top:10px;">
-              <span style="font-size:0.72rem;text-transform:uppercase;color:#94a3b8;font-weight:bold;display:block;">Agreed Budget</span>
-              <strong style="font-size:1.3rem;color:#16a34a;">$${order.price}</strong>
-            </div>
-            <div>
-              <span style="font-size:0.72rem;text-transform:uppercase;color:#94a3b8;font-weight:bold;display:block;">Target Deadline</span>
-              <strong style="color:#0f172a;">${order.deadline || "Flexible"}</strong>
-            </div>
-            <div>
-              <span style="font-size:0.72rem;text-transform:uppercase;color:#94a3b8;font-weight:bold;display:block;">Created</span>
-              <strong style="color:#0f172a;">${order.createdDate || "N/A"}</strong>
-            </div>
-          </div>
-
-          ${order.status !== "Completed" && order.status !== "Cancelled" ? `
-            <button class="btn-danger" style="width:100%;margin-top:18px;" onclick="cancelContract(${order.id})">
-              Cancel Contract
-            </button>
-          ` : ""}
-        </div>
+      <div class="details-card">
+        <h3>Overview</h3>
+        <p><strong>Client:</strong> ${order.clientName}</p>
+        <p><strong>Budget:</strong> <span style="color:#16a34a;font-weight:bold;">$${order.price}</span></p>
+        <button class="register-btn" style="width:100%;margin-top:20px;" onclick="showView('orders')">&#8592; Back to Orders</button>
       </div>
-
     </div>
   `;
 }
 
-window.toggleMilestone = function(orderId, index, isCompleted) {
+window.toggleMilestone = (orderId, index, isCompleted) => {
   const order = orders.find(o => o.id == orderId);
-  if (order && order.milestones && order.milestones[index] !== undefined) {
+  if (order && order.milestones[index]) {
     order.milestones[index].completed = isCompleted;
     saveToStorage();
     renderProjectDetails(orderId);
   }
 };
 
-window.addMilestone = function(orderId) {
-  const input = document.getElementById("customMilestoneInput");
-  if (!input || !input.value.trim()) return;
-
-  const order = orders.find(o => o.id == orderId);
-  if (order) {
-    if (!order.milestones) order.milestones = [];
-    order.milestones.push({ id: "m" + Date.now(), title: input.value.trim(), completed: false });
-    saveToStorage();
-    renderProjectDetails(orderId);
-  }
-};
-
-window.openDeliveryModalFor = function(orderId) {
-  const input = document.getElementById("deliveryOrderId");
-  if (input) input.value = orderId;
-  openModal("deliveryModal");
-};
-
-window.approveWork = function(orderId) {
-  const order = orders.find(o => o.id == orderId);
-  if (order) {
-    order.status = "Completed";
-    if (order.milestones) order.milestones.forEach(m => m.completed = true);
-    saveToStorage();
-    renderProjectDetails(orderId);
-    renderOrders();
-    showToast("Project marked as Completed!", "success");
-    createNotification('completed', 'Project Completed', `The project "${order.title}" has been completed successfully.`);
-  }
-};
-
-window.requestRevision = function(orderId) {
-  const order = orders.find(o => o.id == orderId);
-  if (order) {
-    order.status = "In Progress";
-    saveToStorage();
-    renderProjectDetails(orderId);
-    renderOrders();
-    showToast("Revision requested. Project is back In Progress.", "info");
-  }
-};
-
-window.cancelContract = function(orderId) {
-  if (!confirm("Are you sure you want to cancel this contract?")) return;
-  const order = orders.find(o => o.id == orderId);
-  if (order) {
-    order.status = "Cancelled";
-    saveToStorage();
-    renderProjectDetails(orderId);
-    renderOrders();
-    showToast("Contract cancelled.", "error");
-  }
-};
-
-window.openReviewModalFor = function(orderId, serviceId) {
-  document.getElementById("reviewOrderId").value  = orderId;
-  document.getElementById("reviewServiceId").value = serviceId;
-  openModal("reviewModal");
-};
-
-// ==========================================================================
-// 14. User Profile DOM Update
-// ==========================================================================
-
 function updateProfileDOM() {
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.innerText = val; };
-  const setSrc = (id, val) => { const el = document.getElementById(id); if (el && val) el.src = val; };
-
-  set("profileName",       userProfile.name);
-  set("profileTitle",      userProfile.title);
-  set("profileBio",        userProfile.bio);
-  set("profileExperience", userProfile.experience || "");
-  setSrc("profileImg",     userProfile.img);
-
-  // Pre-fill edit form
-  const fields = { inputName: "name", inputTitle: "title", inputBio: "bio", inputExperience: "experience" };
-  Object.entries(fields).forEach(([elId, key]) => {
-    const el = document.getElementById(elId);
-    if (el) el.value = userProfile[key] || "";
-  });
+  set("profileName", userProfile.name);
+  set("profileTitle", userProfile.title);
+  set("profileBio", userProfile.bio);
+  const imgEl = document.getElementById("profileImg");
+  if (imgEl && userProfile.img) imgEl.src = userProfile.img;
 }

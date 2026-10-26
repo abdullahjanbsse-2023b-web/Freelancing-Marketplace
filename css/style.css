@@ -171,7 +171,7 @@ body {
 }
 
 /* ==========================================================================
-   Main Layout
+   Main Layout & Dashboards (Week 7)
    ========================================================================== */
 main {
   flex: 1;
@@ -202,6 +202,55 @@ main {
 .dashboard-header p {
   color: #64748b;
   margin-top: 4px;
+}
+
+/* Dashboard Statistics Grid (Week 7 KPI Cards) */
+.dashboard-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.stat-card span {
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-card h3 {
+  font-size: 1.8rem;
+  color: #0f172a;
+  margin-top: 8px;
+}
+
+/* Empty States (Week 7) */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px 20px;
+  background: white;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  color: #64748b;
+  font-size: 1rem;
+  margin: 20px 0;
+}
+
+.empty-state-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
 }
 
 /* ==========================================================================
@@ -257,13 +306,49 @@ main {
 .search-box button:hover { background: #059669; }
 
 /* ==========================================================================
-   Section Shared Styles
+   Advanced Filters Panel (Week 7)
    ========================================================================== */
-.section-subtitle {
-  color: #64748b;
+.advanced-filters-panel {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
   margin-bottom: 30px;
-  margin-top: 6px;
-  font-size: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.filter-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-size: 0.88rem;
+  color: #475569;
+}
+
+.filter-group input[type="number"],
+.filter-group select {
+  padding: 8px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  background: white;
+  outline: none;
+}
+
+.filter-group input[type="number"] {
+  width: 90px;
 }
 
 /* ==========================================================================
@@ -322,62 +407,6 @@ main {
 }
 
 /* ==========================================================================
-   How It Works Section
-   ========================================================================== */
-.how-it-works {
-  background: #f1f5f9;
-  padding: 60px 5%;
-  text-align: center;
-}
-
-.how-it-works h2 {
-  font-size: 1.8rem;
-  color: #0f172a;
-}
-
-.steps-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 25px;
-  max-width: 1100px;
-  margin: 30px auto 0;
-}
-
-.step-card {
-  background: white;
-  border-radius: 12px;
-  padding: 35px 25px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  border: 1px solid #e2e8f0;
-}
-
-.step-number {
-  width: 52px;
-  height: 52px;
-  background: #0f172a;
-  color: white;
-  border-radius: 50%;
-  font-size: 1.4rem;
-  font-weight: 900;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 18px;
-}
-
-.step-card h3 {
-  font-size: 1.05rem;
-  color: #0f172a;
-  margin-bottom: 10px;
-}
-
-.step-card p {
-  color: #64748b;
-  font-size: 0.92rem;
-}
-
-/* ==========================================================================
    Marketplace Section
    ========================================================================== */
 section.marketplace {
@@ -397,7 +426,7 @@ section.marketplace h2 {
   align-items: center;
   gap: 15px;
   flex-wrap: wrap;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
   margin-top: 20px;
 }
 
@@ -441,7 +470,7 @@ section.marketplace h2 {
 }
 
 /* ==========================================================================
-   Freelancer / Service Cards
+   Freelancer / Service Cards & Favorites (Week 7)
    ========================================================================== */
 .freelancer-container,
 .my-services-grid {
@@ -460,11 +489,42 @@ section.marketplace h2 {
   justify-content: space-between;
   box-shadow: 0 1px 4px rgba(0,0,0,0.05);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
 }
 
 .freelancer-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 18px rgba(0,0,0,0.09);
+}
+
+/* Favorite Heart Button */
+.favorite-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: white;
+  border: 1px solid #cbd5e1;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  transition: all 0.2s;
+  z-index: 5;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.1);
+}
+
+.favorite-btn.saved {
+  color: #ef4444;
+  border-color: #fca5a5;
+  background: #fef2f2;
 }
 
 .freelancer-card img {
@@ -625,7 +685,7 @@ section.marketplace h2 {
 }
 
 /* ==========================================================================
-   Proposals
+   Proposals & Status Badges
    ========================================================================== */
 .proposals-list {
   display: flex;
@@ -660,7 +720,6 @@ section.marketplace h2 {
   flex-wrap: wrap;
 }
 
-/* Status Badges */
 .status-badge {
   padding: 4px 12px;
   border-radius: 20px;
@@ -680,7 +739,7 @@ section.marketplace h2 {
 .status-cancelled  { background: #fee2e2; color: #b91c1c; }
 
 /* ==========================================================================
-   Orders & Contracts (Week 5)
+   Orders & Contracts
    ========================================================================== */
 .order-stats-summary {
   display: flex;
@@ -750,7 +809,6 @@ section.marketplace h2 {
   margin: 10px 0;
 }
 
-/* Progress Bar */
 .progress-container { margin: 15px 0 10px; }
 
 .progress-header {
@@ -775,7 +833,6 @@ section.marketplace h2 {
   transition: width 0.4s ease;
 }
 
-/* Project Details */
 .project-details-grid {
   display: grid;
   grid-template-columns: 2fr 1fr;
@@ -1133,13 +1190,6 @@ section.marketplace h2 {
   box-shadow: 0 0 0 3px rgba(16,185,129,0.1);
 }
 
-.form-error {
-  color: #ef4444;
-  font-size: 0.8rem;
-  margin-top: 3px;
-  display: none;
-}
-
 /* ==========================================================================
    Messages Modal Styles (Week 6)
    ========================================================================== */
@@ -1453,21 +1503,10 @@ section.marketplace h2 {
   flex-shrink: 0;
 }
 
-.notification-icon.message {
-  background: #e3f2fd;
-}
-
-.notification-icon.project {
-  background: #fff3e0;
-}
-
-.notification-icon.review {
-  background: #fce4ec;
-}
-
-.notification-icon.completed {
-  background: #e8f5e9;
-}
+.notification-icon.message { background: #e3f2fd; }
+.notification-icon.project { background: #fff3e0; }
+.notification-icon.review  { background: #fce4ec; }
+.notification-icon.completed { background: #e8f5e9; }
 
 .notification-content {
   flex: 1;
@@ -1504,7 +1543,7 @@ section.marketplace h2 {
 }
 
 /* ==========================================================================
-   Reviews Section (Week 6)
+   Reviews Section
    ========================================================================== */
 .reviews-section {
   margin-top: 20px;
@@ -1647,134 +1686,33 @@ footer {
    Responsive Design
    ========================================================================== */
 @media (max-width: 1024px) {
-  .project-details-grid {
-    grid-template-columns: 1fr;
-  }
-  .profile-container {
-    grid-template-columns: 1fr;
-  }
+  .project-details-grid { grid-template-columns: 1fr; }
+  .profile-container { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
-  .navbar {
-    flex-wrap: wrap;
-    height: auto;
-    padding: 14px 5%;
-    gap: 12px;
-  }
-
-  .hamburger {
-    display: block;
-  }
-
-  .nav-links {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    gap: 10px;
-    padding: 10px 0;
-    border-top: 1px solid #f1f5f9;
-  }
-
-  .nav-links.open {
-    display: flex;
-  }
-
-  .auth-buttons {
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .hero h1 {
-    font-size: 1.7rem;
-  }
-
-  .search-box {
-    flex-direction: column;
-    border-radius: 8px;
-  }
-
-  .search-box input {
-    border-radius: 8px 8px 0 0;
-  }
-
-  .search-box button {
-    border-radius: 0 0 8px 8px;
-  }
-
-  .categories-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .steps-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .about-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .about-stats {
-    gap: 30px;
-  }
-
-  .marketplace-controls {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .footer-content {
-    flex-direction: column;
-  }
-
-  .proposal-card {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .dashboard-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .messages-container-modal {
-    flex-direction: column;
-  }
-  
-  .conversations-sidebar {
-    width: 100%;
-    height: 40vh;
-    border-right: none;
-    border-bottom: 1px solid #e0e0e0;
-  }
-  
-  .chat-window {
-    height: 60vh;
-  }
-  
-  .message-bubble {
-    max-width: 80%;
-  }
+  .navbar { flex-wrap: wrap; height: auto; padding: 14px 5%; gap: 12px; }
+  .hamburger { display: block; }
+  .nav-links { display: none; flex-direction: column; width: 100%; gap: 10px; padding: 10px 0; border-top: 1px solid #f1f5f9; }
+  .nav-links.open { display: flex; }
+  .auth-buttons { width: 100%; justify-content: center; flex-wrap: wrap; }
+  .hero h1 { font-size: 1.7rem; }
+  .search-box { flex-direction: column; border-radius: 8px; }
+  .search-box input { border-radius: 8px 8px 0 0; }
+  .search-box button { border-radius: 0 0 8px 8px; }
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+  .steps-grid, .about-grid { grid-template-columns: 1fr; }
+  .marketplace-controls { flex-direction: column; align-items: flex-start; }
+  .footer-content, .proposal-card, .dashboard-header { flex-direction: column; align-items: flex-start; }
+  .messages-container-modal { flex-direction: column; }
+  .conversations-sidebar { width: 100%; height: 40vh; border-right: none; border-bottom: 1px solid #e0e0e0; }
+  .chat-window { height: 60vh; }
+  .message-bubble { max-width: 80%; }
 }
 
 @media (max-width: 480px) {
-  .categories-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .freelancer-container,
-  .my-services-grid,
-  .jobs-grid,
-  .orders-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .modal-content {
-    padding: 22px 18px;
-  }
-
-  .hero {
-    padding: 50px 15px 40px;
-  }
+  .categories-grid { grid-template-columns: 1fr; }
+  .freelancer-container, .my-services-grid, .jobs-grid, .orders-grid { grid-template-columns: 1fr; }
+  .modal-content { padding: 22px 18px; }
+  .hero { padding: 50px 15px 40px; }
 }
